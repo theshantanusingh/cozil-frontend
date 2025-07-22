@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cozil Chat - Connect and chat with friends around the world">
+    <meta name="keywords" content="chat, messaging, social network, video chat">
+    <meta name="author" content="Cozil">
+    <title>Chat - Cozil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./../../output.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 70px;
+        }
+        
+        .chat-body {
+            height: calc(100vh - 140px);
+            background: #f8fafc;
+        }
+        
+        .chat-input-area {
+            height: 70px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .message-sent {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+            margin-left: auto;
+            max-width: 70%;
+        }
+        
+        .message-received {
+            background: white;
+            color: #1e293b;
+            border-radius: 18px 18px 18px 4px;
+            border: 1px solid #e2e8f0;
+            max-width: 70%;
+        }
+        
+        .typing-animation {
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-animation:nth-child(1) { animation-delay: -0.32s; }
+        .typing-animation:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        .online-dot {
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .chat-input {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            transition: all 0.2s ease;
+        }
+        
+        .chat-input:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .action-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .disconnect-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .disconnect-btn:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            transform: translateY(-1px);
+        }
+        
+        .new-user-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .new-user-btn:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-1px);
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.2s ease;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .messages-container {
+            overflow-y: auto;
+            height: 100%;
+        }
+        
+        .messages-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .messages-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        .messages-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        
+        .messages-container::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="font-sans">
+    
+    <!-- Chat Header -->
+    <header class="chat-header flex items-center justify-between px-6">
+        <div class="flex items-center space-x-4">
+            <h1 class="text-2xl font-bold text-white">Cozil</h1>
+            <div class="h-6 w-px bg-white/30"></div>
+            <span class="text-white/80 font-medium">Random Chat</span>
+        </div>
+        
+        <!-- User Info -->
+        <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-3">
+                <div class="relative">
+                    <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">AS</span>
+                    </div>
+                    <div class="absolute -bottom-1 -right-1 w-4 h-4 online-dot rounded-full border-2 border-white"></div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white">Alex Smith</h3>
+                    <p class="text-sm text-white/80">Online • New York</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex items-center space-x-3">
+            <button id="video-call-btn" class="action-btn p-3 rounded-xl text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+            </button>
+            
+            <button id="new-user-btn" class="new-user-btn px-4 py-2 rounded-xl text-white font-medium shadow-lg">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                    </svg>
+                    <span>New User</span>
+                </div>
+            </button>
+            
+            <button id="disconnect-btn" class="disconnect-btn px-4 py-2 rounded-xl text-white font-medium shadow-lg">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    <span>Disconnect</span>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <!-- Chat Body -->
+    <main class="chat-body">
+        <div class="messages-container px-6 py-6" id="messages-container">
+            <!-- Connection Status -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center space-x-2 bg-green-100 text-green-800 px-4 py-2 rounded-full">
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span class="font-medium">Connected to Alex Smith</span>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">Chat started • Today 2:30 PM</p>
+            </div>
+            
+            <!-- Messages -->
+            <div class="space-y-4" id="messages-list">
+                <!-- Received Message -->
+                <div class="flex items-start space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-white font-bold text-sm">AS</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="message-received px-4 py-3 shadow-sm">
+                            <p class="text-gray-900 font-medium">Hey there! Nice to meet you! 😊 How's your day going?</p>
+                        </div>
+                        <span class="text-xs text-gray-500 mt-1 ml-2">2:31 PM</span>
+                    </div>
+                </div>
+                
+                <!-- Sent Message -->
+                <div class="flex justify-end">
+                    <div class="flex flex-col items-end">
+                        <div class="message-sent px-4 py-3 shadow-lg">
+                            <p class="font-medium">Hi Alex! Great to meet you too! My day's been pretty good, just working on some projects. What about you?</p>
+                        </div>
+                        <span class="text-xs text-gray-500 mt-1 mr-2">2:32 PM</span>
+                    </div>
+                </div>
+                
+                <!-- Received Message -->
+                <div class="flex items-start space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-white font-bold text-sm">AS</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="message-received px-4 py-3 shadow-sm">
+                            <p class="text-gray-900 font-medium">That's awesome! I love meeting people who are working on cool stuff. What kind of projects are you into? 🚀</p>
+                        </div>
+                        <span class="text-xs text-gray-500 mt-1 ml-2">2:33 PM</span>
+                    </div>
+                </div>
+                
+                <!-- Sent Message -->
+                <div class="flex justify-end">
+                    <div class="flex flex-col items-end">
+                        <div class="message-sent px-4 py-3 shadow-lg">
+                            <p class="font-medium">I'm actually working on a chat application! Pretty meta that we're chatting about it right now 😄</p>
+                        </div>
+                        <span class="text-xs text-gray-500 mt-1 mr-2">2:34 PM</span>
+                    </div>
+                </div>
+                
+                <!-- Received Message -->
+                <div class="flex items-start space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-white font-bold text-sm">AS</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="message-received px-4 py-3 shadow-sm">
+                            <p class="text-gray-900 font-medium">Haha that's so cool! 😂 I'd love to hear more about it. Are you building it from scratch?</p>
+                        </div>
+                        <span class="text-xs text-gray-500 mt-1 ml-2">2:35 PM</span>
+                    </div>
+                </div>
+                
+                <!-- Typing Indicator -->
+                <div class="flex items-start space-x-3" id="typing-indicator">
+                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-white font-bold text-sm">AS</span>
+                    </div>
+                    <div class="bg-white px-4 py-3 rounded-2xl rounded-tl-md shadow-sm border border-gray-200">
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chat Input Area -->
+    <footer class="chat-input-area flex items-center px-6 space-x-4">
+        <!-- Attachment Button -->
+        <button id="attachment-btn" class="p-3 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+            </svg>
+        </button>
+        
+        <!-- Message Input -->
+        <div class="flex-1 relative">
+            <textarea 
+                id="message-input" 
+                placeholder="Type your message..." 
+                rows="1"
+                class="w-full px-6 py-3 chat-input focus:outline-none resize-none font-medium text-gray-900 placeholder-gray-500"
+            ></textarea>
+            
+            <!-- Emoji Button -->
+            <button id="emoji-btn" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-indigo-600 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Send Button -->
+        <button id="send-btn" class="send-btn p-3 text-white rounded-full shadow-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+            </svg>
+        </button>
+    </footer>
+
+    <!-- Emoji Picker -->
+    <div id="emoji-picker" class="fixed bottom-20 right-6 bg-white rounded-2xl shadow-xl border border-gray-200 p-4 hidden z-50">
+        <div class="grid grid-cols-8 gap-2">
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">😊</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">😂</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">❤️</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">👍</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🎉</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🚀</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">💯</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🔥</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">😍</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🤔</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">😎</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🙌</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">✨</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">💪</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🎯</button>
+            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">⚡</button>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <script>
+        // Auto-resize textarea
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+        }
+
+        // Add message to chat
+        function addMessage(content, isSent = true) {
+            const messagesList = document.getElementById('messages-list');
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            const messageDiv = document.createElement('div');
+            
+            if (isSent) {
+                messageDiv.className = 'flex justify-end';
+                messageDiv.innerHTML = `
+                    <div class="flex flex-col items-end">
+                        <div class="message-sent px-4 py-3 shadow-lg">
+                            <p class="font-medium">${content}</p>
+                        </div>
+                        <span class="text-xs text-gray-500 mt-1 mr-2">${timeString}</span>
+                    </div>
+                `;
+            } else {
+                messageDiv.className = 'flex items-start space-x-3';
+                messageDiv.innerHTML = `
+                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-white font-bold text-sm">AS</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="message-received px-4 py-3 shadow-sm">
+                            <p class="text-gray-900 font-medium">${content}</p>
+                        </div>
+                        <span class="text-xs text-gray-500 mt-1 ml-2">${timeString}</span>
+                    </div>
+                `;
+            }
+            
+            // Remove typing indicator
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+            
+            messagesList.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            const messagesContainer = document.getElementById('messages-container');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Add typing indicator back for received messages
+            if (!isSent) {
+                setTimeout(() => {
+                    addTypingIndicator();
+                }, 1500);
+            }
+        }
+
+        // Add typing indicator
+        function addTypingIndicator() {
+            const messagesList = document.getElementById('messages-list');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.className = 'flex items-start space-x-3';
+            typingDiv.innerHTML = `
+                <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-white font-bold text-sm">AS</span>
+                </div>
+                <div class="bg-white px-4 py-3 rounded-2xl rounded-tl-md shadow-sm border border-gray-200">
+                    <div class="flex space-x-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
+                    </div>
+                </div>
+            `;
+            messagesList.appendChild(typingDiv);
+            
+            const messagesContainer = document.getElementById('messages-container');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Send message
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const content = input.value.trim();
+            
+            if (content) {
+                addMessage(content, true);
+                input.value = '';
+                input.style.height = 'auto';
+                
+                // Simulate response
+                setTimeout(() => {
+                    const responses = [
+                        "That's really interesting! Tell me more about it 🤔",
+                        "Awesome! I love hearing about new projects 🚀",
+                        "Sounds like you're doing amazing work! 💪",
+                        "That's so cool! How long have you been working on it? ⚡",
+                        "I'd love to see it in action sometime! ✨"
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(randomResponse, false);
+                }, Math.random() * 2000 + 1000);
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const container = document.getElementById('notification-container');
+            const notification = document.createElement('div');
+            notification.className = `p-4 rounded-xl shadow-lg transition-all duration-300 transform translate-x-full opacity-0 ${
+                type === 'success' ? 'bg-green-500 text-white' : 
+                type === 'info' ? 'bg-blue-500 text-white' : 'bg-red-500 text-white'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="w-2 h-2 bg-white/80 rounded-full"></div>
+                    <span class="font-medium">${message}</span>
+                </div>
+            `;
+            
+            container.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full', 'opacity-0');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageInput = document.getElementById('message-input');
+            const sendBtn = document.getElementById('send-btn');
+            const emojiBtn = document.getElementById('emoji-btn');
+            const emojiPicker = document.getElementById('emoji-picker');
+            const attachmentBtn = document.getElementById('attachment-btn');
+            const videoCallBtn = document.getElementById('video-call-btn');
+            const newUserBtn = document.getElementById('new-user-btn');
+            const disconnectBtn = document.getElementById('disconnect-btn');
+
+            messageInput.addEventListener('input', function() {
+                autoResize(this);
+            });
+
+            messageInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            sendBtn.addEventListener('click', sendMessage);
+
+            emojiBtn.addEventListener('click', function() {
+                emojiPicker.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!emojiBtn.contains(e.target) && !emojiPicker.contains(e.target)) {
+                    emojiPicker.classList.add('hidden');
+                }
+            });
+
+            document.querySelectorAll('.emoji-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    messageInput.value += this.textContent;
+                    messageInput.focus();
+                    autoResize(messageInput);
+                    emojiPicker.classList.add('hidden');
+                });
+            });
+
+            attachmentBtn.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*,video/*,audio/*,.pdf,.doc,.docx';
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        showNotification(`File "${file.name}" ready to send`);
+                    }
+                };
+                input.click();
+            });
+
+            videoCallBtn.addEventListener('click', function() {
+                showNotification('Starting video call with Alex...', 'info');
+            });
+
+            newUserBtn.addEventListener('click', function() {
+                showNotification('Finding a new user to chat with...', 'info');
+                // Simulate finding new user
+                setTimeout(() => {
+                    showNotification('Connected to a new user!', 'success');
+                    // Here you would typically reload the chat with new user
+                }, 2000);
+            });
+
+            disconnectBtn.addEventListener('click', function() {
+                showNotification('Disconnected from chat', 'error');
+                // Simulate disconnect
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+            });
+
+            messageInput.focus();
+        });
+    </script>
+</body>
+</html>
