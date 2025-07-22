@@ -1,0 +1,27 @@
+{
+  "name": "frontend-cozil",
+  "version": "1.0.0",
+  "description": "Cozil application frontend, presently in HTML CSS JS but will shift on NEXTjs or REMIX on later version of the application. Presently in this specific version, we will focus on creating the frontend and serving it through a basic server (apache, ningx , express or anything else). Moreover it is also a learning path for me so i took the way to gowith HTML CSS(TAILWIND) and JS, cause this project is features heavy i want to know feel and explore all problems which i wll get if i wll not use a good framework, this is what made my mide for choosing this stack, and as informed earlier , I will surely move to a framework in near future.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/theshantanusingh/cozil-frontend"
+  },
+  "keywords": [
+    "Meet",
+    "strangers",
+    "random-people",
+    "make-friends",
+    "advance-learning-for-me(Shantanu)-as-i-am-making-this-as-side-project-for-learning-all"
+  ],
+  "author": "Shantanu Singh",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17"
+  }
+}
