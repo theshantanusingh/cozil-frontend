@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cozil Video Call - High quality video calling experience">
+    <meta name="keywords" content="video call, chat, social network, communication">
+    <meta name="author" content="Cozil">
+    <title>Video Call - Cozil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./../../output.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .remote-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        
+        .local-video {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 280px;
+            height: 200px;
+            border-radius: 16px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .local-video:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .controls-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            space-x: 16px;
+        }
+        
+        .control-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0 8px;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .mute-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        .mute-btn.muted {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+        }
+        
+        .video-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        .video-btn.disabled {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+        }
+        
+        .end-call-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            width: 64px;
+            height: 64px;
+        }
+        
+        .end-call-btn:hover {
+            background: linear-gradient(135deg, #ee5a24 0%, #d63031 100%);
+        }
+        
+        .chat-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        .chat-btn.active {
+            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            color: white;
+        }
+        
+        .emoji-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        .emoji-btn:hover {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            color: #2d3436;
+        }
+        
+        .chat-panel {
+            position: absolute;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-panel.open {
+            right: 0;
+        }
+        
+        .chat-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        
+        .chat-input-area {
+            padding: 16px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .chat-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            background: white;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: #a29bfe;
+            box-shadow: 0 0 0 3px rgba(162, 155, 254, 0.1);
+        }
+        
+        .message {
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            max-width: 80%;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .message.sent {
+            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.received {
+            background: #f3f4f6;
+            color: #1f2937;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .user-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+        }
+        
+        .emoji-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .emoji-picker {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .emoji-picker.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .emoji-item {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .emoji-item:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+        }
+        
+        .reaction-animation {
+            position: absolute;
+            font-size: 80px;
+            pointer-events: none;
+            animation: reactionFloat 3s ease-out forwards;
+            z-index: 999;
+        }
+        
+        @keyframes reactionFloat {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-100px) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px) scale(0.8);
+                opacity: 0;
+            }
+        }
+        
+        .call-duration {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .video-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <!-- Remote Video -->
+        <div class="remote-video video-placeholder">
+            <div class="avatar-large">AS</div>
+            <div>Alex Smith</div>
+        </div>
+        
+        <!-- Local Video -->
+        <div class="local-video video-placeholder" style="font-size: 14px;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: white; margin-bottom: 8px;">
+                You
+            </div>
+            <div>You</div>
+        </div>
+        
+        <!-- User Info -->
+        <div class="user-info">
+            <div style="font-size: 16px; margin-bottom: 4px;">Alex Smith</div>
+            <div style="font-size: 12px; opacity: 0.8;">New York, USA</div>
+        </div>
+        
+        <!-- Call Duration -->
+        <div class="call-duration" id="call-duration">
+            00:00
+        </div>
+        
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+            <button class="control-btn mute-btn" id="mute-btn" title="Mute/Unmute">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 10-2 2-2-2"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19v4"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 23h8"></path>
+                </svg>
+            </button>
+            
+            <button class="control-btn video-btn" id="video-btn" title="Turn Camera On/Off">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m23 7-7 5 7 5V7z"></path>
+                    <rect width="15" height="9" x="1" y="8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" rx="2" ry="2"></rect>
+                </svg>
+            </button>
+            
+            <button class="control-btn emoji-btn" id="emoji-btn" title="Send Reaction">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 9 1.5 1.5L15 6"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                    <line x1="9" x2="9.01" y1="9" y2="9" stroke-width="2"></line>
+                    <line x1="15" x2="15.01" y1="9" y2="9" stroke-width="2"></line>
+                </svg>
+            </button>
+            
+            <button class="control-btn chat-btn" id="chat-btn" title="Toggle Chat">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </button>
+            
+            <button class="control-btn end-call-btn" id="end-call-btn" title="End Call">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    <line x1="18" x2="6" y1="6" y2="18" stroke-width="2"></line>
+                    <line x1="6" x2="18" y1="6" y2="18" stroke-width="2"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Chat Panel -->
+        <div class="chat-panel" id="chat-panel">
+            <div class="chat-header">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin: 0; font-size: 18px; font-weight: 600; color: #1f2937;">Chat</h3>
+                    <button id="close-chat" style="background: none; border: none; color: #6b7280; cursor: pointer; padding: 4px;">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18 6-12 12"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 6 12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="message received">
+                    Hey! Great to see you on video call! 😊
+                </div>
+                <div class="message sent">
+                    Same here! The video quality looks amazing!
+                </div>
+                <div class="message received">
+                    Yeah, this is so much better than just text chat! 🚀
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Type a message...">
+            </div>
+        </div>
+        
+        <!-- Emoji Overlay -->
+        <div class="emoji-overlay" id="emoji-overlay">
+            <div class="emoji-picker" id="emoji-picker">
+                <div class="emoji-grid">
+                    <div class="emoji-item" data-emoji="👍">👍</div>
+                    <div class="emoji-item" data-emoji="❤️">❤️</div>
+                    <div class="emoji-item" data-emoji="😂">😂</div>
+                    <div class="emoji-item" data-emoji="😮">😮</div>
+                    <div class="emoji-item" data-emoji="😢">😢</div>
+                    <div class="emoji-item" data-emoji="😡">😡</div>
+                    <div class="emoji-item" data-emoji="🎉">🎉</div>
+                    <div class="emoji-item" data-emoji="🔥">🔥</div>
+                    <div class="emoji-item" data-emoji="💯">💯</div>
+                    <div class="emoji-item" data-emoji="🚀">🚀</div>
+                    <div class="emoji-item" data-emoji="✨">✨</div>
+                    <div class="emoji-item" data-emoji="💪">💪</div>
+                </div>
+                <div style="text-align: center;">
+                    <button id="close-emoji" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 500; cursor: pointer;">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let callStartTime = Date.now();
+        let isMuted = false;
+        let isVideoOff = false;
+        let isChatOpen = false;
+        
+        // Update call duration
+        function updateCallDuration() {
+            const elapsed = Math.floor((Date.now() - callStartTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('call-duration').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        setInterval(updateCallDuration, 1000);
+        
+        // Mute/Unmute
+        document.getElementById('mute-btn').addEventListener('click', function() {
+            isMuted = !isMuted;
+            this.classList.toggle('muted', isMuted);
+            this.innerHTML = isMuted ? 
+                '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 10-2 2-2-2"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19v4"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 23h8"></path><line x1="17" x2="7" y1="7" y2="17" stroke-width="2"></line><line x1="7" x2="17" y1="7" y2="17" stroke-width="2"></line></svg>' :
+                '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 10-2 2-2-2"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19v4"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 23h8"></path></svg>';
+        });
+        
+        // Video On/Off
+        document.getElementById('video-btn').addEventListener('click', function() {
+            isVideoOff = !isVideoOff;
+            this.classList.toggle('disabled', isVideoOff);
+            this.innerHTML = isVideoOff ?
+                '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m23 7-7 5 7 5V7z"></path><rect width="15" height="9" x="1" y="8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" rx="2" ry="2"></rect><line x1="22" x2="2" y1="2" y2="22" stroke-width="2"></line></svg>' :
+                '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m23 7-7 5 7 5V7z"></path><rect width="15" height="9" x="1" y="8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" rx="2" ry="2"></rect></svg>';
+        });
+        
+        // Chat Toggle
+        document.getElementById('chat-btn').addEventListener('click', function() {
+            isChatOpen = !isChatOpen;
+            this.classList.toggle('active', isChatOpen);
+            document.getElementById('chat-panel').classList.toggle('open', isChatOpen);
+        });
+        
+        document.getElementById('close-chat').addEventListener('click', function() {
+            isChatOpen = false;
+            document.getElementById('chat-btn').classList.remove('active');
+            document.getElementById('chat-panel').classList.remove('open');
+        });
+        
+        // Emoji Reactions
+        document.getElementById('emoji-btn').addEventListener('click', function() {
+            const overlay = document.getElementById('emoji-overlay');
+            const picker = document.getElementById('emoji-picker');
+            overlay.style.display = 'flex';
+            setTimeout(() => picker.classList.add('show'), 10);
+        });
+        
+        document.getElementById('close-emoji').addEventListener('click', function() {
+            closeEmojiPicker();
+        });
+        
+        document.getElementById('emoji-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEmojiPicker();
+            }
+        });
+        
+        function closeEmojiPicker() {
+            const overlay = document.getElementById('emoji-overlay');
+            const picker = document.getElementById('emoji-picker');
+            picker.classList.remove('show');
+            setTimeout(() => overlay.style.display = 'none', 300);
+        }
+        
+        // Emoji Selection
+        document.querySelectorAll('.emoji-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const emoji = this.dataset.emoji;
+                showReaction(emoji);
+                closeEmojiPicker();
+            });
+        });
+        
+        function showReaction(emoji) {
+            const reaction = document.createElement('div');
+            reaction.className = 'reaction-animation';
+            reaction.textContent = emoji;
+            reaction.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            reaction.style.top = Math.random() * (window.innerHeight - 200) + 100 + 'px';
+            document.body.appendChild(reaction);
+            
+            setTimeout(() => {
+                reaction.remove();
+            }, 3000);
+        }
+        
+        // Chat Input
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                const messagesContainer = document.getElementById('chat-messages');
+                const message = document.createElement('div');
+                message.className = 'message sent';
+                message.textContent = this.value;
+                messagesContainer.appendChild(message);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                this.value = '';
+                
+                // Simulate response
+                setTimeout(() => {
+                    const response = document.createElement('div');
+                    response.className = 'message received';
+                    response.textContent = 'Thanks for the message! 😊';
+                    messagesContainer.appendChild(response);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 1000);
+            }
+        });
+        
+        // End Call
+        document.getElementById('end-call-btn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to end the call?')) {
+                window.location.href = '/chat';
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'm' || e.key === 'M') {
+                document.getElementById('mute-btn').click();
+            } else if (e.key === 'v' || e.key === 'V') {
+                document.getElementById('video-btn').click();
+            } else if (e.key === 'c' || e.key === 'C') {
+                document.getElementById('chat-btn').click();
+            } else if (e.key === 'Escape') {
+                if (document.getElementById('emoji-overlay').style.display === 'flex') {
+                    closeEmojiPicker();
+                } else if (isChatOpen) {
+                    document.getElementById('close-chat').click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
