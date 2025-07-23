@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cozil Help Center - Report users or get assistance">
+    <meta name="keywords" content="cozil help, report user, support, chat help">
+    <meta name="author" content="Cozil">
+    <title>Help Center - Cozil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./../../output.css">
+    <style>
+        .custom-input {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .custom-input:focus {
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .report-type-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .report-type-btn.active {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Background Pattern -->
+    <div class="fixed inset-0 opacity-10 pointer-events-none">
+        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 25px 25px, rgba(99, 102, 241, 0.3) 2px, transparent 0); background-size: 50px 50px;"></div>
+    </div>
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-indigo-100 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="/" class="text-2xl font-medium bg-violet-900 bg-clip-text text-transparent">
+                    Cozil
+                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="/profile" class="text-gray-700 hover:text-indigo-600 transition-colors duration-200 font-medium">
+                        My Profile
+                    </a>
+                    <a href="/logout" class="px-4 py-2 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 font-medium">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 relative z-10">
+        <!-- Help Center Header -->
+        <section class="mb-12 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Help Center</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Get assistance or report inappropriate behavior to keep Cozil safe for everyone.</p>
+        </section>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Report User Section -->
+            <div class="glass-panel rounded-2xl shadow-lg p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Report a User</h2>
+                </div>
+                
+                <form id="report-form">
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Username to Report</label>
+                        <input type="text" id="report-username" placeholder="@username" 
+                               class="w-full px-4 py-3 rounded-xl custom-input focus:outline-none transition-all duration-300 font-medium">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Report Type</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button" class="report-type-btn active py-3 px-4 border rounded-lg font-medium text-sm" data-type="inappropriate-content">
+                                Inappropriate Content
+                            </button>
+                            <button type="button" class="report-type-btn py-3 px-4 border rounded-lg font-medium text-sm" data-type="harassment">
+                                Harassment
+                            </button>
+                            <button type="button" class="report-type-btn py-3 px-4 border rounded-lg font-medium text-sm" data-type="spam">
+                                Spam
+                            </button>
+                            <button type="button" class="report-type-btn py-3 px-4 border rounded-lg font-medium text-sm" data-type="other">
+                                Other
+                            </button>
+                        </div>
+                        <input type="hidden" id="report-type" value="inappropriate-content">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Details</label>
+                        <textarea id="report-details" rows="4" placeholder="Please provide details about your report..." 
+                                  class="w-full px-4 py-3 rounded-xl custom-input focus:outline-none transition-all duration-300 resize-none"></textarea>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Evidence (Optional)</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <p class="mt-2 text-sm text-gray-600">Upload screenshots or files</p>
+                            <input type="file" id="report-evidence" class="hidden" multiple>
+                            <button type="button" onclick="document.getElementById('report-evidence').click()" 
+                                    class="mt-3 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg text-sm font-medium transition-all duration-300">
+                                Select Files
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-xl font-bold transition-all duration-300 shadow-md hover:shadow-lg">
+                        Submit Report
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Help/Support Section -->
+            <div class="glass-panel rounded-2xl shadow-lg p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Get Help</h2>
+                </div>
+                
+                <form id="help-form">
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Your Email</label>
+                        <input type="email" id="help-email" placeholder="email@example.com" 
+                               class="w-full px-4 py-3 rounded-xl custom-input focus:outline-none transition-all duration-300 font-medium">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Subject</label>
+                        <select id="help-subject" class="w-full px-4 py-3 rounded-xl custom-input focus:outline-none transition-all duration-300 font-medium">
+                            <option value="">Select a topic</option>
+                            <option value="account">Account Issues</option>
+                            <option value="technical">Technical Problems</option>
+                            <option value="safety">Safety Concerns</option>
+                            <option value="feedback">Feedback/Suggestions</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                        <textarea id="help-description" rows="4" placeholder="Please describe your issue in detail..." 
+                                  class="w-full px-4 py-3 rounded-xl custom-input focus:outline-none transition-all duration-300 resize-none"></textarea>
+                    </div>
+                    
+                    <div class="flex items-center mb-6">
+                        <input type="checkbox" id="help-urgent" class="rounded text-indigo-600 focus:ring-indigo-500">
+                        <label for="help-urgent" class="ml-2 text-sm text-gray-700">This is urgent</label>
+                    </div>
+                    
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-xl font-bold transition-all duration-300 shadow-md hover:shadow-lg">
+                        Submit Request
+                    </button>
+                </form>
+                
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Frequently Asked Questions</h3>
+                    <div class="space-y-4">
+                        <!-- <div class="border-b border-gray-200 pb-4">
+                            <button class="flex justify-between items-center w-full text-left font-medium text-gray-700">
+                                <span>How do I block a user?</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <div class="mt-2 text-sm text-gray-600 hidden">
+                                You can block a user by visiting their profile and clicking the "Block User" button. Blocked users won't be able to contact you or see your profile.
+                            </div>
+                        </div> -->
+                        
+                        <div class="border-b border-gray-200 pb-4">
+                            <button class="flex justify-between items-center w-full text-left font-medium text-gray-700">
+                                <span>Is Cozil anonymous?</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <div class="mt-2 text-sm text-gray-600 hidden">
+                                Cozil allows you to chat as you want. You can choose what information to share with other users. We will just show the details you have choosen to give us(not forced).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Report type selection
+            const reportTypeBtns = document.querySelectorAll('.report-type-btn');
+            const reportTypeInput = document.getElementById('report-type');
+            
+            reportTypeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    reportTypeBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    reportTypeInput.value = this.dataset.type;
+                });
+            });
+            
+            // FAQ accordion
+            const faqButtons = document.querySelectorAll('#help-form + div button');
+            faqButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    answer.classList.toggle('hidden');
+                });
+            });
+            
+            // Form submissions
+            document.getElementById('report-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Report submitted successfully. Our team will review it shortly.');
+                this.reset();
+            });
+            
+            document.getElementById('help-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Help request received. We\'ll contact you soon at the email provided.');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>
