@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cozil - Your personal profile page. Connect with friends and manage your account.">
+    <meta name="description"
+        content="Cozil - Your personal profile page. Connect with friends and manage your account.">
     <meta name="keywords" content="social network, profile, chat, video chat, messaging">
     <meta name="author" content="Cozil">
     <title>Profile - Cozil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./../../output.css">
     <style>
         .custom-input {
@@ -15,23 +18,23 @@
             border: 1px solid rgba(99, 102, 241, 0.2);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
-        
+
         .custom-input:focus {
             border-color: rgba(99, 102, 241, 0.5);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
-        
+
         .custom-input:disabled {
             background: rgba(249, 250, 251, 0.8);
             border-color: rgba(209, 213, 219, 0.5);
         }
-        
+
         .btn-glow {
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
         }
-        
+
         .btn-glow::before {
             content: '';
             position: absolute;
@@ -43,27 +46,46 @@
             transform: rotate(45deg);
             animation: glowEffect 3s infinite;
         }
-        
+
         @keyframes glowEffect {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
         }
-        
+
         .profile-bg {
             background-image: linear-gradient(to right, rgba(249, 250, 251, 0.8), rgba(243, 244, 246, 0.8));
         }
-        
+
         .dark .profile-bg {
             background-image: linear-gradient(to right, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.8));
         }
+
+        /* Add these new rules */
+        body {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 </head>
+
 <body class="min-h-screen bg-white font-sans">
     <!-- Background Pattern -->
     <div class="fixed inset-0 opacity-10">
-        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 25px 25px, rgba(99, 102, 241, 0.3) 2px, transparent 0); background-size: 50px 50px;"></div>
+        <div class="absolute inset-0"
+            style="background-image: radial-gradient(circle at 25px 25px, rgba(99, 102, 241, 0.3) 2px, transparent 0); background-size: 50px 50px;">
+        </div>
     </div>
-    
+
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-indigo-100 shadow-sm">
         <div class="container mx-auto px-6 py-4">
@@ -72,10 +94,12 @@
                     Cozil
                 </a>
                 <div class="flex items-center space-x-4">
-                    <a href="/help" class="text-gray-700 hover:text-indigo-600 transition-colors duration-200 font-medium">
+                    <a href="/help"
+                        class="text-gray-700 hover:text-indigo-600 transition-colors duration-200 font-medium">
                         Help
                     </a>
-                    <button id="logout-btn" class="px-4 py-2 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 font-medium">
+                    <button id="logout-btn"
+                        class="px-4 py-2 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 font-medium">
                         Logout
                     </button>
                 </div>
@@ -87,34 +111,47 @@
         <!-- Profile Header -->
         <section class="relative mb-8">
             <!-- Glassmorphism Background -->
-            <div class="bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 p-8 relative overflow-hidden">
+            <div
+                class="bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 p-8 relative overflow-hidden">
                 <!-- Subtle gradient overlay -->
                 <div class="absolute inset-0 bg-gradient-to-br bg-white rounded-2xl"></div>
-                
+
                 <!-- Floating elements for visual interest -->
-                <div class="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-full blur-xl"></div>
-                <div class="absolute bottom-4 left-4 w-16 h-16 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-xl"></div>
-                
+                <div
+                    class="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-full blur-xl">
+                </div>
+                <div
+                    class="absolute bottom-4 left-4 w-16 h-16 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-xl">
+                </div>
+
                 <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
                     <div class="relative">
-                        <div class="w-32 h-32 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full p-1 shadow-lg">
-                            <div class="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
-                                <img id="profile-image" src="/placeholder.svg" alt="Profile" class="w-full h-full object-cover hidden">
+                        <div
+                            class="w-32 h-32 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full p-1 shadow-lg">
+                            <div
+                                class="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
+                                <img id="profile-image" src="/placeholder.svg" alt="Profile"
+                                    class="w-full h-full object-cover hidden">
                                 <span id="profile-initials" class="text-indigo-600 text-4xl font-bold">JD</span>
                             </div>
                         </div>
-                        <button id="change-photo-btn" class="absolute -bottom-2 -right-2 w-10 h-10 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center backdrop-blur-sm">
+                        <button id="change-photo-btn"
+                            class="absolute -bottom-2 -right-2 w-10 h-10 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center backdrop-blur-sm">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
                         </button>
                     </div>
-                    
+
                     <div class="flex-1 text-center md:text-left">
                         <h1 class="text-3xl font-bold text-gray-800 mb-1" id="display-name">John Doe</h1>
                         <p class="text-indigo-600 text-lg mb-3 font-medium" id="username-display">@johndoe123</p>
-                        <p class="text-gray-700 text-lg leading-relaxed" id="bio-display">Love connecting with new people! Always up for a good conversation.</p>
+                        <p class="text-gray-700 text-lg leading-relaxed" id="bio-display">Love connecting with new
+                            people! Always up for a good conversation.</p>
                     </div>
                 </div>
             </div>
@@ -122,15 +159,21 @@
 
         <!-- Action Buttons -->
         <section class="grid grid-cols-2 gap-4 mb-8">
-            <button id="start-video-call" class="btn-glow bg-gradient-to-r from-indigo-300 to-purple-300 hover:from-indigo-700 hover:to-purple-700 text-white py-4 rounded-xl font-medium transition-all duration-300 flex items-center justify-center space-x-3 shadow-md hover:shadow-lg">
+            <button id="start-video-call"
+                class="btn-glow bg-gradient-to-r from-indigo-300 to-purple-300 hover:from-indigo-700 hover:to-purple-700 text-white py-4 rounded-xl font-medium transition-all duration-300 flex items-center justify-center space-x-3 shadow-md hover:shadow-lg">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                    </path>
                 </svg>
                 <span>Random Video Chat</span>
             </button>
-            <button id="start-chat" class="btn-glow bg-gradient-to-r from-green-300 to-teal-300 hover:from-green-600 hover:to-teal-600 text-white py-4 rounded-xl font-medium transition-all duration-300 flex items-center justify-center space-x-3 shadow-md hover:shadow-lg">
+            <button id="start-chat"
+                class="btn-glow bg-gradient-to-r from-green-300 to-teal-300 hover:from-green-600 hover:to-teal-600 text-white py-4 rounded-xl font-medium transition-all duration-300 flex items-center justify-center space-x-3 shadow-md hover:shadow-lg">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                    </path>
                 </svg>
                 <span>Random Text Chat</span>
             </button>
@@ -144,10 +187,11 @@
                     <div class="bg-gradient-to-r from-indigo-50 to-purple-50 px-8 py-5 border-b border-indigo-100">
                         <div class="flex items-center justify-between">
                             <h2 class="text-xl font-bold text-gray-800">Personal Information</h2>
-                            <button id="edit-personal-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg">Edit</button>
+                            <button id="edit-personal-btn"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer">Edit</button>
                         </div>
                     </div>
-                    
+
                     <div class="p-8">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
@@ -157,19 +201,19 @@
                                     <p class="text-xs text-gray-500 mt-1">Username cannot be changed</p>
                                 </div>
                             </div>
-                            
+
                             <div class="space-y-2">
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Name</label>
                                 <input type="text" id="name-input" value="John Doe" disabled
                                     class="w-full px-4 py-4 rounded-xl custom-input focus:outline-none transition-all duration-300 font-medium">
                             </div>
-                            
+
                             <div class="md:col-span-2 space-y-2">
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Bio</label>
                                 <textarea id="bio-input" disabled rows="3"
                                     class="w-full px-4 py-4 rounded-xl custom-input focus:outline-none transition-all duration-300 resize-none">Love connecting with new people! Always up for a good conversation.</textarea>
                             </div>
-                            
+
                             <div class="space-y-2">
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Gender</label>
                                 <select id="gender-input" disabled
@@ -180,23 +224,26 @@
                                     <option value="other">Other</option>
                                 </select>
                             </div>
-                            
+
                             <div class="space-y-2">
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Location</label>
                                 <input type="text" id="address-input" value="New York, USA" disabled
                                     class="w-full px-4 py-4 rounded-xl custom-input focus:outline-none transition-all duration-300 font-medium">
                             </div>
-                            
+
                             <div class="md:col-span-2 space-y-2">
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Occupation</label>
                                 <input type="text" id="occupation-input" value="Software Developer" disabled
                                     class="w-full px-4 py-4 rounded-xl custom-input focus:outline-none transition-all duration-300 font-medium">
                             </div>
                         </div>
-                        
+
                         <div id="personal-info-actions" class="flex justify-end space-x-4 mt-8 hidden">
-                            <button id="cancel-personal-btn" class="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium transition-colors rounded-xl hover:bg-gray-100">Cancel</button>
-                            <button id="save-personal-btn" class="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg">Save Changes</button>
+                            <button id="cancel-personal-btn"
+                                class="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium transition-colors rounded-xl hover:bg-gray-100">Cancel</button>
+                            <button id="save-personal-btn"
+                                class="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg">Save
+                                Changes</button>
                         </div>
                     </div>
                 </div>
@@ -209,10 +256,11 @@
                     <div class="bg-gradient-to-r from-indigo-50 to-purple-50 px-6 py-4 border-b border-indigo-100">
                         <div class="flex items-center justify-between">
                             <h2 class="font-bold text-gray-800">Contact Info</h2>
-                            <button id="edit-contact-btn" class="text-indigo-600 hover:text-indigo-700 font-medium transition-colors text-sm">Edit</button>
+                            <button id="edit-contact-btn"
+                                class="text-indigo-600 hover:text-indigo-700 font-medium transition-colors text-sm">Edit</button>
                         </div>
                     </div>
-                    
+
                     <div class="p-6">
                         <div class="space-y-4">
                             <div>
@@ -220,31 +268,39 @@
                                 <div class="relative">
                                     <input type="email" id="email-input" value="john@example.com" disabled
                                         class="w-full px-4 py-3 rounded-xl custom-input focus:outline-none transition-all duration-300 pr-20 font-medium">
-                                    <div id="email-verified" class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
+                                    <div id="email-verified"
+                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
                                         <span class="text-green-600 text-xs font-semibold">Verified</span>
                                         <div class="w-2 h-2 bg-green-500 rounded-full"></div>
                                     </div>
                                 </div>
-                                <button id="verify-email-btn" class="mt-2 text-indigo-600 hover:text-indigo-700 text-sm font-medium transition-colors hidden">Send Verification</button>
+                                <button id="verify-email-btn"
+                                    class="mt-2 text-indigo-600 hover:text-indigo-700 text-sm font-medium transition-colors hidden">Send
+                                    Verification</button>
                             </div>
-                            
+
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Mobile</label>
                                 <div class="relative">
                                     <input type="tel" id="mobile-input" value="+1 (555) 123-4567" disabled
                                         class="w-full px-4 py-3 rounded-xl custom-input focus:outline-none transition-all duration-300 pr-20 font-medium">
-                                    <div id="mobile-verified" class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
+                                    <div id="mobile-verified"
+                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
                                         <span class="text-orange-600 text-xs font-semibold">Pending</span>
                                         <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
                                     </div>
                                 </div>
-                                <button id="verify-mobile-btn" class="mt-2 text-indigo-600 hover:text-indigo-700 text-sm font-medium transition-colors hidden">Send SMS Code</button>
+                                <button id="verify-mobile-btn"
+                                    class="mt-2 text-indigo-600 hover:text-indigo-700 text-sm font-medium transition-colors hidden">Send
+                                    SMS Code</button>
                             </div>
                         </div>
-                        
+
                         <div id="contact-info-actions" class="flex justify-end space-x-3 mt-6 hidden">
-                            <button id="cancel-contact-btn" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors text-sm">Cancel</button>
-                            <button id="save-contact-btn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all duration-300 text-sm shadow-sm hover:shadow-md">Save</button>
+                            <button id="cancel-contact-btn"
+                                class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors text-sm">Cancel</button>
+                            <button id="save-contact-btn"
+                                class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all duration-300 text-sm shadow-sm hover:shadow-md">Save</button>
                         </div>
                     </div>
                 </div>
@@ -254,7 +310,7 @@
                     <div class="bg-gradient-to-r from-indigo-50 to-purple-50 px-6 py-4 border-b border-indigo-100">
                         <h2 class="font-bold text-gray-800">Security</h2>
                     </div>
-                    
+
                     <div class="p-6">
                         <div class="bg-gradient-to-r from-red-50 to-pink-50 p-4 rounded-xl border border-red-100">
                             <div class="flex justify-between items-center">
@@ -262,18 +318,21 @@
                                     <h3 class="font-semibold text-gray-800">Password</h3>
                                     <p class="text-sm text-gray-600">Last changed 2 weeks ago</p>
                                 </div>
-                                <button id="reset-password-btn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm shadow-sm hover:shadow-md">
+                                <button id="reset-password-btn"
+                                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm shadow-sm hover:shadow-md">
                                     Reset
                                 </button>
                             </div>
                         </div>
-                        
-                        <div id="password-reset-note" class="bg-yellow-50 p-4 rounded-xl border border-yellow-200 mt-4 hidden">
+
+                        <div id="password-reset-note"
+                            class="bg-yellow-50 p-4 rounded-xl border border-yellow-200 mt-4 hidden">
                             <div class="flex items-center space-x-2">
                                 <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
                                 <div>
                                     <h4 class="text-sm font-semibold text-yellow-800">Email Required</h4>
-                                    <p class="text-sm text-yellow-700">Add and verify an email to reset your password.</p>
+                                    <p class="text-sm text-yellow-700">Add and verify an email to reset your password.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -285,13 +344,13 @@
                     <div class="bg-gradient-to-r from-indigo-50 to-purple-50 px-6 py-4 border-b border-indigo-100">
                         <h2 class="font-bold text-gray-800">Account Status</h2>
                     </div>
-                    
+
                     <div class="p-6">
                         <div class="flex items-center space-x-3 mb-4">
                             <div class="w-3 h-3 bg-green-500 rounded-full"></div>
                             <span class="text-gray-800 font-semibold">Active</span>
                         </div>
-                        
+
                         <div class="text-sm text-gray-600">
                             <p class="flex justify-between border-b border-gray-100 py-2">
                                 <span class="text-gray-500">Member since:</span>
@@ -332,9 +391,9 @@
             document.getElementById('display-name').textContent = userData.name || userData.username;
             document.getElementById('username-display').textContent = `@${userData.username}`;
             document.getElementById('bio-display').textContent = userData.bio || "No bio added yet.";
-            
+
             // Update profile initials
-            const initials = userData.name ? 
+            const initials = userData.name ?
                 userData.name.split(' ').map(n => n[0]).join('').toUpperCase() :
                 userData.username.substring(0, 2).toUpperCase();
             document.getElementById('profile-initials').textContent = initials;
@@ -342,26 +401,28 @@
 
         // Personal info editing
         let personalInfoEditing = false;
-        
+
         function togglePersonalEdit() {
             const fields = ['name-input', 'bio-input', 'gender-input', 'address-input', 'occupation-input'];
             const editBtn = document.getElementById('edit-personal-btn');
             const actions = document.getElementById('personal-info-actions');
-            
+
             personalInfoEditing = !personalInfoEditing;
-            
+
             fields.forEach(fieldId => {
                 const field = document.getElementById(fieldId);
                 field.disabled = !personalInfoEditing;
             });
-            
+
             if (personalInfoEditing) {
                 editBtn.textContent = 'Cancel';
-                editBtn.className = 'bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg';
+                editBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                editBtn.classList.add('bg-gray-500', 'hover:bg-gray-600');
                 actions.classList.remove('hidden');
             } else {
                 editBtn.textContent = 'Edit';
-                editBtn.className = 'bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg';
+                editBtn.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                editBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
                 actions.classList.add('hidden');
                 // Reset values
                 document.getElementById('name-input').value = userData.name;
@@ -379,30 +440,30 @@
             userData.gender = document.getElementById('gender-input').value;
             userData.address = document.getElementById('address-input').value;
             userData.occupation = document.getElementById('occupation-input').value;
-            
+
             updateDisplay();
             togglePersonalEdit();
-            
+
             // Show success message
             showNotification('Personal information updated successfully!', 'success');
         }
 
         // Contact info editing
         let contactInfoEditing = false;
-        
+
         function toggleContactEdit() {
             const fields = ['email-input', 'mobile-input'];
             const editBtn = document.getElementById('edit-contact-btn');
             const actions = document.getElementById('contact-info-actions');
             const verifyButtons = ['verify-email-btn', 'verify-mobile-btn'];
-            
+
             contactInfoEditing = !contactInfoEditing;
-            
+
             fields.forEach(fieldId => {
                 const field = document.getElementById(fieldId);
                 field.disabled = !contactInfoEditing;
             });
-            
+
             verifyButtons.forEach(btnId => {
                 const btn = document.getElementById(btnId);
                 if (contactInfoEditing) {
@@ -411,7 +472,7 @@
                     btn.classList.add('hidden');
                 }
             });
-            
+
             if (contactInfoEditing) {
                 editBtn.textContent = 'Cancel';
                 actions.classList.remove('hidden');
@@ -428,10 +489,10 @@
             // Simulate API call
             const oldEmail = userData.email;
             const oldMobile = userData.mobile;
-            
+
             userData.email = document.getElementById('email-input').value;
             userData.mobile = document.getElementById('mobile-input').value;
-            
+
             // If email/mobile changed, mark as unverified
             if (oldEmail !== userData.email) {
                 userData.emailVerified = false;
@@ -439,23 +500,23 @@
             if (oldMobile !== userData.mobile) {
                 userData.mobileVerified = false;
             }
-            
+
             updateVerificationStatus();
             toggleContactEdit();
-            
+
             showNotification('Contact information updated successfully!', 'success');
         }
 
         function updateVerificationStatus() {
             const emailStatus = document.getElementById('email-verified');
             const mobileStatus = document.getElementById('mobile-verified');
-            
+
             if (userData.emailVerified) {
                 emailStatus.innerHTML = '<span class="text-green-600 text-xs font-semibold">Verified</span><div class="w-2 h-2 bg-green-500 rounded-full"></div>';
             } else {
                 emailStatus.innerHTML = '<span class="text-orange-600 text-xs font-semibold">Pending</span><div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>';
             }
-            
+
             if (userData.mobileVerified) {
                 mobileStatus.innerHTML = '<span class="text-green-600 text-xs font-semibold">Verified</span><div class="w-2 h-2 bg-green-500 rounded-full"></div>';
             } else {
@@ -467,24 +528,23 @@
         function showNotification(message, type) {
             const container = document.getElementById('notification-container');
             const notification = document.createElement('div');
-            notification.className = `p-4 rounded-xl shadow-lg transition-all duration-300 transform translate-x-full opacity-0 ${
-                type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-            }`;
-            
+            notification.className = `p-4 rounded-xl shadow-lg transition-all duration-300 transform translate-x-full opacity-0 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                }`;
+
             notification.innerHTML = `
                 <div class="flex items-center space-x-3">
                     <div class="w-2 h-2 ${type === 'success' ? 'bg-green-200' : 'bg-red-200'} rounded-full"></div>
                     <span class="font-medium">${message}</span>
                 </div>
             `;
-            
+
             container.appendChild(notification);
-            
+
             // Animate in
             setTimeout(() => {
                 notification.classList.remove('translate-x-full', 'opacity-0');
             }, 100);
-            
+
             // Auto dismiss after 3 seconds
             setTimeout(() => {
                 notification.classList.add('translate-x-full', 'opacity-0');
@@ -499,7 +559,7 @@
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     userData.profilePicture = e.target.result;
                     const profileImage = document.getElementById('profile-image');
                     profileImage.src = userData.profilePicture;
@@ -512,31 +572,31 @@
         }
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             updateDisplay();
             updateVerificationStatus();
-            
+
             // Event Listeners
             document.getElementById('edit-personal-btn').addEventListener('click', togglePersonalEdit);
             document.getElementById('cancel-personal-btn').addEventListener('click', togglePersonalEdit);
             document.getElementById('save-personal-btn').addEventListener('click', savePersonalInfo);
-            
+
             document.getElementById('edit-contact-btn').addEventListener('click', toggleContactEdit);
             document.getElementById('cancel-contact-btn').addEventListener('click', toggleContactEdit);
             document.getElementById('save-contact-btn').addEventListener('click', saveContactInfo);
-            
+
             document.getElementById('verify-email-btn').addEventListener('click', () => {
                 userData.emailVerified = true;
                 updateVerificationStatus();
                 showNotification('Verification email sent!', 'success');
             });
-            
+
             document.getElementById('verify-mobile-btn').addEventListener('click', () => {
                 userData.mobileVerified = true;
                 updateVerificationStatus();
                 showNotification('Verification SMS sent!', 'success');
             });
-            
+
             document.getElementById('reset-password-btn').addEventListener('click', () => {
                 if (!userData.emailVerified) {
                     document.getElementById('password-reset-note').classList.remove('hidden');
@@ -546,7 +606,7 @@
                     showNotification('Password reset link sent to your email!', 'success');
                 }
             });
-            
+
             document.getElementById('change-photo-btn').addEventListener('click', () => {
                 const input = document.createElement('input');
                 input.type = 'file';
@@ -554,7 +614,7 @@
                 input.onchange = handleProfilePictureChange;
                 input.click();
             });
-            
+
             document.getElementById('logout-btn').addEventListener('click', () => {
                 showNotification('Logged out successfully!', 'success');
                 // Simulate logout
@@ -562,12 +622,12 @@
                     window.location.href = '/login';
                 }, 1000);
             });
-            
+
             document.getElementById('start-video-call').addEventListener('click', () => {
                 showNotification('Starting random video chat...', 'success');
                 // Simulate video call start
             });
-            
+
             document.getElementById('start-chat').addEventListener('click', () => {
                 showNotification('Finding random chat partner...', 'success');
                 // Simulate chat start
@@ -575,4 +635,5 @@
         });
     </script>
 </body>
+
 </html>
