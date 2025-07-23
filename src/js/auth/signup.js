@@ -231,7 +231,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // In a real application, you would send this data to your server
             console.log('Signup data:', { username, password });
-            alert('Account created successfully! (This would redirect to profile)');
+            alert('Account created successfully!');
+            window.location.href = "/profile";
         }
     });
 });

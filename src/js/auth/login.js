@@ -7,22 +7,6 @@ const registeredUsers = [
     'john@example.com', 'jane@example.com', 'alex@example.com'
 ];
 
-function initTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-    }
-}
-
-function toggleTheme() {
-    const isDark = document.documentElement.classList.contains('dark');
-    document.documentElement.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'light' : 'dark');
-}
-
 function showError(fieldId, message) {
     const errorElement = document.getElementById(`${fieldId}-error`);
     const inputElement = document.getElementById(fieldId);
@@ -146,10 +130,8 @@ function prevStep() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    initTheme();
     showStep(1);
 
-    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
     document.getElementById('next-btn').addEventListener('click', nextStep);
     document.getElementById('back-btn').addEventListener('click', prevStep);
 
@@ -175,8 +157,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             console.log('Login data:', { username, password });
             alert('Logged in successfully! Welcome to Cozil dashboard.');
+            window.location.href = "/profile";
         }
     });
 
     document.getElementById('username').focus();
 });
+
+console.log("hello")

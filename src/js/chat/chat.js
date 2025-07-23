@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
         showNotification('Disconnected from chat', 'error');
         // Simulate disconnect
         setTimeout(() => {
-            window.location.href = '/';
+            window.location.href = '/profile';
         }, 1500);
     });
 

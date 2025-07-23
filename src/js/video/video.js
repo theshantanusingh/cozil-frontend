@@ -118,7 +118,7 @@ document.getElementById('chat-input').addEventListener('keypress', function (e) 
 // End Call
 document.getElementById('end-call-btn').addEventListener('click', function () {
     if (confirm('Are you sure you want to end the call?')) {
-        window.location.href = '/chat';
+        window.location.href = '/profile';
     }
 });
 
@@ -130,7 +130,7 @@ document.addEventListener('keydown', function (e) {
         document.getElementById('video-btn').click();
     } else if (e.key === 'c' || e.key === 'C') {
         document.getElementById('chat-btn').click();
-    } else if (e.key === 'Escape') {
+    } else if (e.key === 'd') {
         if (document.getElementById('emoji-overlay').style.display === 'flex') {
             closeEmojiPicker();
         } else if (isChatOpen) {

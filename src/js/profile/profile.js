@@ -247,17 +247,17 @@ document.addEventListener('DOMContentLoaded', function () {
         showNotification('Logged out successfully!', 'success');
         // Simulate logout
         setTimeout(() => {
-            window.location.href = '/login';
+            window.location.href = '/auth/login';
         }, 1000);
     });
 
     document.getElementById('start-video-call').addEventListener('click', () => {
         showNotification('Starting random video chat...', 'success');
-        // Simulate video call start
+        window.location.href = "/videochat";
     });
 
     document.getElementById('start-chat').addEventListener('click', () => {
         showNotification('Finding random chat partner...', 'success');
-        // Simulate chat start
+        window.location.href = "/chat";
     });
 });
