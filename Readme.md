@@ -1,107 +1,130 @@
 # Cozil - Random Video & Text Chat Platform
 
-![Cozil Logo](https://via.placeholder.com/150x50?text=Cozil) <!--  I will Replace with my logo later .-->
+![Cozil Logo](https://via.placeholder.com/150x50?text=Cozil) <!-- Replace with your logo later. -->
 
-**Cozil** is an Omegle-style platform where users can connect randomly for text and video chats. This is my super-duper learning project to understand the full stack development process from frontend hurdles to backend complexities.
+**Cozil** is an Omegle-style platform where users can connect randomly for text and video chats. This project is a hands-on learning journey through the full stack development process—from frontend challenges to backend complexities.
+
+---
 
 ## 🚀 Project Vision
 
-I'm building Cozil to:
-- Experience the raw challenges of pure HTML/CSS/JS in large projects
-- Understand security implications in real-time communication apps
-- Learn how to scale from monolith to distributed systems
-- Prepare for advanced architectures by first walking through basic implementations
+Cozil is being built to:
+
+- Tackle the challenges of using pure HTML/CSS/JS in large projects
+- Understand security in real-time communication apps
+- Learn how to scale from monoliths to distributed systems
+- Prepare for advanced architectures by first mastering the basics
+
+---
 
 ## 🔧 Current Tech Stack (Phase 1)
 
 ### Frontend
-- **Pure HTML5** - For semantic structure
-- **CSS3/Tailwind** - For styling (with glassmorphism effects)
-- **Vanilla JavaScript** - To feel the pain points before switching to frameworks
-- **WebRTC** - For real-time video/audio communication
+
+- **HTML5** – Semantic structure
+- **CSS3 / Tailwind CSS** – Styling (with glassmorphism effects)
+- **Vanilla JavaScript** – To experience core pain points before adopting frameworks
+- **WebRTC** – Real-time video/audio communication
 
 ### Backend (Planned)
-- **Node.js/Express** - Initial backend for understanding fundamentals
-- **Socket.IO** - For real-time event handling
-- **JWT** - For authentication
+
+- **Node.js / Express** – Initial backend for fundamentals
+- **Socket.IO** – Real-time event handling
+- **JWT** – Authentication
+
+---
 
 ## 🌟 Future Architecture (Phase 2+)
 
-When I've conquered the initial challenges, I'll evolve Cozil to:
+After core features are complete, the plan is to migrate to:
 
 ### Frontend
-- **React/Remix or Next.js** - For more maintainable UI
-- **TypeScript** - For type safety
+
+- **React / Remix or Next.js** – For maintainable UI
+- **TypeScript** – Type safety
 
 ### Backend
+
 - **Microservices Architecture**:
-  - **NestJS** - For structured Node.js services
-  - **FastAPI** - For Python-based services
+    - **NestJS** – Structured Node.js services
+    - **FastAPI** – Python-based services
 - **Multi-Database**:
-  - **PostgreSQL** - For relational data
-  - **MongoDB** - For flexible document storage
-  - **Redis** - For caching and real-time features
+    - **PostgreSQL** – Relational data
+    - **MongoDB** – Document storage
+    - **Redis** – Caching and real-time features
+
+---
 
 ## 🛠 Development Approach
 
-1. **AI-Assisted Coding**: Used AI tools to generate initial code structures(i am writing code for 4 years😁, so i know all concepts)
+1. **AI-Assisted Coding**: Used AI tools for initial code scaffolding
 2. **Manual Debugging**: Personally debugged and refactored all code
 3. **Security-First**:
-   - Implementing end-to-end encryption
-   - Building robust moderation tools
-   - Following OWASP guidelines
+     - End-to-end encryption
+     - Robust moderation tools
+     - Following OWASP guidelines
 4. **Progressive Enhancement**:
-   - Starting simple to understand core concepts
-   - Gradually adding complexity
+     - Start simple to understand core concepts
+     - Gradually add complexity
+
+---
 
 ## 🧠 Learning Objectives
 
-Through this project, I aim to master:
-
 ### Frontend
+
 - DOM manipulation at scale
 - State management without frameworks
 - Real-time UI updates
-- Cross-browser compatibility issues
+- Cross-browser compatibility
 
 ### Backend
+
 - Session management
 - Rate limiting
 - Database optimization
 - API design patterns
 
 ### DevOps
+
 - Containerization (Docker)
 - CI/CD pipelines
 - Load testing
 - Distributed system monitoring
 
+---
 
 ## 🛡 Security Measures
 
 1. **Content Moderation**:
-   - Real-time message filtering
-   - User reporting system
+     - Real-time message filtering
+     - User reporting system
 2. **Privacy Protection**:
-   - No persistent message storage
-   - IP address anonymization
+     - No persistent message storage
+     - IP address anonymization
 3. **Authentication**:
-   - Optional guest accounts
-   - Email verification for registered users
+     - Optional guest accounts
+     - Email verification for registered users
+
+---
 
 ## 🚧 Challenges Faced
 
-1. **Pure JS State Management** - CHALLENGES
-2. **WebRTC Configuration** - Handling NAT traversal and ICE candidates
-3. **Performance Optimization** - Managing memory leaks in long-running chats
-4. **Cross-Browser Testing** - Especially for WebRTC features
+1. **Pure JS State Management** – Challenging without frameworks
+2. **WebRTC Configuration** – Handling NAT traversal and ICE candidates
+3. **Performance Optimization** – Managing memory leaks in long-running chats
+4. **Cross-Browser Testing** – Especially for WebRTC features
+
+---
 
 ## 📚 Resources Used
 
 - WebRTC Documentation
 - Tailwind CSS Docs
 - OWASP Security Guidelines
-- Various AI coding assistants (for initial scaffolding)
+- AI coding assistants (for initial scaffolding)
+
+---
 
 ## ➡️ Next Steps
 
@@ -111,16 +134,37 @@ Through this project, I aim to master:
 4. Create admin dashboard
 5. Plan microservice decomposition
 
-## 🤝 Contributing
-
-While this is primarily a learning project, I'm open to:
-- Security suggestions
-- Architecture advice
-- Performance tips
-
-(Note: Not currently accepting code contributions as this is my personal learning journey)
-
 ---
 
-Built with passion and countless cups of coffee ☕  
-By Shantnau  - Learning the hard way to appreciate the easy way!
+## 🧩 Installation
+
+To run the **Cozil Frontend** locally:
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/theshantanusingh/cozil-frontend.git
+cd cozil-frontend
+```
+
+### 2. Install Dependencies
+
+Ensure Node.js and npm are installed, then run:
+
+```bash
+npm install
+```
+
+### 3. Build Tailwind CSS
+
+```bash
+npm run build
+```
+
+This will generate the CSS at `./src/output.css`.
+
+### 4. Start the Server
+
+```bash
+npm start
+```
