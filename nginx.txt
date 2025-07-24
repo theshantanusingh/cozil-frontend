@@ -1,4 +1,4 @@
-# copy of proxy server configuration is.
+# copy of proxy server configuration is. (if you have git pulled it you can ignore and work without nginx setup)
 
 worker_processes  1;
 
