@@ -1,0 +1,71 @@
+# ----------------------------------------
+# Node.js
+# ----------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ----------------------------------------
+# Tailwind build output (adjust path if needed)
+# ----------------------------------------
+src/output.css
+*.css.map
+
+# If you later use public/ for serving static files:
+public/style.css
+
+# ----------------------------------------
+# Logs
+# ----------------------------------------
+logs/
+*.log
+*.log.*
+
+# ----------------------------------------
+# Environment Variables (Secrets)
+# ----------------------------------------
+.env
+.env.*
+
+# ----------------------------------------
+# OS and Editor Specific
+# ----------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.bak
+
+# ----------------------------------------
+# Build / Cache / Distribution
+# ----------------------------------------
+dist/
+build/
+.cache/
+coverage/
+
+# ----------------------------------------
+# Docker
+# # ----------------------------------------
+# Dockerfile
+# Dockerfile.*
+# docker-compose.yml
+# docker-compose.*.yml
+# .docker/
+# *.tar
+# *.img
+# docker-debug.log
+
+# Optional: ignore container-specific folders if you create them
+volumes/
+tmp/
+
+# ----------------------------------------
+# Git
+# ----------------------------------------
+.git/
+# .gitignore
+.gitattributes
