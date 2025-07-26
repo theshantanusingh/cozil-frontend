@@ -1,6 +1,8 @@
 #Base image
 FROM node:18-alpine
 
+LABEL author="Shantanu Singh <distributedservices.shan@gmail.com>"
+
 # Set working directory
 WORKDIR /app
 

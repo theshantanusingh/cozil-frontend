@@ -1,7 +1,5 @@
 # Cozil - Random Video & Text Chat Platform
 
-![Cozil Logo](https://via.placeholder.com/150x50?text=Cozil) <!-- Replace with your logo later. -->
-
 **Cozil** is an Omegle-style platform where users can connect randomly for text and video chats. This project is a hands-on learning journey through the full stack development process—from frontend challenges to backend complexities.
 
 ---
