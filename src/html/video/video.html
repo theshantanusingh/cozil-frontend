@@ -3,464 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cozil Video Call - High quality video calling experience">
-    <meta name="keywords" content="video call, chat, social network, communication">
-    <meta name="author" content="Cozil">
     <title>Video Call - Cozil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="./../../output.css">
+
+    </script>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow: hidden;
-            background: #000;
+            font-family: 'Inter', sans-serif;
         }
         
-        .video-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .gradient-primary {
+            background: linear-gradient(135deg, #ff1744, #e91e63);
         }
         
-        .remote-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-        }
-        
-        .local-video {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 280px;
-            height: 200px;
-            border-radius: 16px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .local-video:hover {
-            transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-        
-        .controls-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.8);
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            space-x: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .control-btn {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            margin: 0 8px;
+        .glow-primary {
+            box-shadow: 0 0 30px rgba(255, 23, 68, 0.3);
         }
         
-        .control-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        .glow-primary-strong {
+            box-shadow: 0 0 40px rgba(255, 23, 68, 0.5);
         }
         
-        .mute-btn {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-        
-        .mute-btn.muted {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-        }
-        
-        .video-btn {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-        
-        .video-btn.disabled {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-        }
-        
-        .end-call-btn {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            width: 64px;
-            height: 64px;
-        }
-        
-        .end-call-btn:hover {
-            background: linear-gradient(135deg, #ee5a24 0%, #d63031 100%);
-        }
-        
-        .chat-btn {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-        
-        .chat-btn.active {
-            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
-            color: white;
-        }
-        
-        .emoji-btn {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-        
-        .emoji-btn:hover {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
-            color: #2d3436;
-        }
-        
-        .chat-panel {
-            position: absolute;
-            right: -400px;
-            top: 0;
-            width: 400px;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border-left: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .chat-panel.open {
-            right: 0;
-        }
-        
-        .chat-header {
-            padding: 24px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 0.8);
-        }
-        
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-        }
-        
-        .chat-input-area {
-            padding: 16px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 0.8);
-        }
-        
-        .chat-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            background: white;
-            font-size: 14px;
-            transition: all 0.2s ease;
-        }
-        
-        .chat-input:focus {
-            outline: none;
-            border-color: #a29bfe;
-            box-shadow: 0 0 0 3px rgba(162, 155, 254, 0.1);
-        }
-        
-        .message {
-            margin-bottom: 12px;
-            padding: 8px 12px;
-            border-radius: 12px;
-            max-width: 80%;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-        
-        .message.sent {
-            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
-            color: white;
-            margin-left: auto;
-            border-bottom-right-radius: 4px;
-        }
-        
-        .message.received {
-            background: #f3f4f6;
-            color: #1f2937;
-            border-bottom-left-radius: 4px;
-        }
-        
-        .user-info {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 12px 20px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 500;
-        }
-        
-        .emoji-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .emoji-picker {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 32px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transform: scale(0.8);
-            opacity: 0;
+        .hover-lift {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .emoji-picker.show {
-            transform: scale(1);
-            opacity: 1;
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.05);
         }
         
-        .emoji-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
+        .pulse-dot {
+            animation: pulse 2s infinite;
         }
         
-        .emoji-item {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            background: rgba(255, 255, 255, 0.5);
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
         }
         
-        .emoji-item:hover {
-            transform: scale(1.1);
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
         }
         
-        .reaction-animation {
-            position: absolute;
-            font-size: 80px;
-            pointer-events: none;
-            animation: reactionFloat 3s ease-out forwards;
-            z-index: 999;
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        @keyframes reactionFloat {
+        .float-reaction {
+            animation: floatReaction 4s ease-out forwards;
+        }
+        
+        @keyframes floatReaction {
             0% {
-                transform: translateY(0) scale(0);
+                transform: translateY(0) scale(0) rotate(0deg);
                 opacity: 1;
             }
-            50% {
-                transform: translateY(-100px) scale(1);
+            20% {
+                transform: translateY(-50px) scale(1) rotate(10deg);
                 opacity: 1;
             }
             100% {
-                transform: translateY(-200px) scale(0.8);
+                transform: translateY(-300px) scale(0.8) rotate(20deg);
                 opacity: 0;
             }
         }
         
-        .call-duration {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: white;
-            font-weight: 500;
-            font-size: 14px;
+        .chat-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
         
-        .video-placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            color: white;
-            font-size: 18px;
-            font-weight: 500;
+        .chat-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
         }
         
-        .avatar-large {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 16px;
+        .chat-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 23, 68, 0.5);
+            border-radius: 3px;
         }
     </style>
 </head>
-<body>
-    <div class="video-container">
-        <!-- Remote Video -->
-        <div class="remote-video video-placeholder">
-            <div class="avatar-large">AS</div>
-            <div>Alex Smith</div>
-        </div>
+<body class="bg-dark-900 text-white overflow-hidden h-screen">
+    <!-- Main Video Container -->
+    <div class="relative w-full h-screen bg-gradient-to-br from-dark-800 to-dark-900">
         
-        <!-- Local Video -->
-        <div class="local-video video-placeholder" style="font-size: 14px;">
-            <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: white; margin-bottom: 8px;">
-                You
+        <!-- Remote Video Area -->
+        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
+            <div class="text-center">
+                <div class="w-40 h-40 mx-auto mb-6 rounded-full gradient-primary flex items-center justify-center text-6xl font-bold glow-primary">
+                    AS
+                </div>
+                <h3 class="text-2xl font-semibold mb-2">Anonymous User</h3>
+                <p class="text-gray-400">Connected via video</p>
             </div>
-            <div>You</div>
         </div>
         
-        <!-- User Info -->
-        <div class="user-info">
-            <div style="font-size: 16px; margin-bottom: 4px;">Alex Smith</div>
-            <div style="font-size: 12px; opacity: 0.8;">New York, USA</div>
+        <!-- Local Video (Picture in Picture) -->
+        <div class="absolute top-6 right-6 w-80 h-48 rounded-2xl glass-effect border-2 border-primary/30 glow-primary hover-lift cursor-pointer">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center">
+                    <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-gradient-to-r from-accent to-primary flex items-center justify-center text-2xl font-bold">
+                        You
+                    </div>
+                    <p class="text-sm font-medium">You</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User Info Card -->
+        <div class="absolute top-6 left-6 glass-effect rounded-2xl p-4 border border-primary/20 glow-primary">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-lg font-bold">
+                    AS
+                </div>
+                <div>
+                    <h4 class="font-semibold text-lg">Anonymous User</h4>
+                    <div class="flex items-center space-x-2 text-sm text-green-400">
+                        <div class="w-2 h-2 bg-green-400 rounded-full pulse-dot"></div>
+                        <span>Connected</span>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- Call Duration -->
-        <div class="call-duration" id="call-duration">
-            00:00
+        <div class="absolute top-6 left-1/2 transform -translate-x-1/2 glass-effect rounded-full px-6 py-3 border border-primary/20">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-clock text-primary"></i>
+                <span class="font-semibold text-lg" id="call-duration">00:00</span>
+            </div>
         </div>
         
-        <!-- Controls Bar -->
-        <div class="controls-bar">
-            <button class="control-btn mute-btn" id="mute-btn" title="Mute/Unmute">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 10-2 2-2-2"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19v4"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 23h8"></path>
-                </svg>
-            </button>
-            
-            <button class="control-btn video-btn" id="video-btn" title="Turn Camera On/Off">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m23 7-7 5 7 5V7z"></path>
-                    <rect width="15" height="9" x="1" y="8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" rx="2" ry="2"></rect>
-                </svg>
-            </button>
-            
-            <button class="control-btn emoji-btn" id="emoji-btn" title="Send Reaction">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 9 1.5 1.5L15 6"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                    <line x1="9" x2="9.01" y1="9" y2="9" stroke-width="2"></line>
-                    <line x1="15" x2="15.01" y1="9" y2="9" stroke-width="2"></line>
-                </svg>
-            </button>
-            
-            <button class="control-btn chat-btn" id="chat-btn" title="Toggle Chat">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
-            </button>
-            
-            <button class="control-btn end-call-btn" id="end-call-btn" title="End Call">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                    <line x1="18" x2="6" y1="6" y2="18" stroke-width="2"></line>
-                    <line x1="6" x2="18" y1="6" y2="18" stroke-width="2"></line>
-                </svg>
-            </button>
+        <!-- Bottom Controls -->
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent backdrop-blur-xl p-8">
+            <div class="flex items-center justify-center space-x-6 max-w-2xl mx-auto">
+                
+                <!-- Mute Button -->
+                <button id="mute-btn" class="w-16 h-16 rounded-full glass-effect border border-white/20 flex items-center justify-center text-xl hover-lift hover:border-primary/50 transition-all duration-300">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                
+                <!-- Video Button -->
+                <button id="video-btn" class="w-16 h-16 rounded-full glass-effect border border-white/20 flex items-center justify-center text-xl hover-lift hover:border-primary/50 transition-all duration-300">
+                    <i class="fas fa-video"></i>
+                </button>
+                
+                <!-- Screen Share Button -->
+                <button id="screen-btn" class="w-16 h-16 rounded-full glass-effect border border-white/20 flex items-center justify-center text-xl hover-lift hover:border-primary/50 transition-all duration-300">
+                    <i class="fas fa-desktop"></i>
+                </button>
+                
+                <!-- End Call Button -->
+                <button id="end-call-btn" class="w-20 h-20 rounded-full bg-red-600 hover:bg-red-700 flex items-center justify-center text-2xl hover-lift glow-primary-strong transition-all duration-300">
+                    <i class="fas fa-phone-slash"></i>
+                </button>
+                
+                <!-- Emoji Button -->
+                <button id="emoji-btn" class="w-16 h-16 rounded-full glass-effect border border-white/20 flex items-center justify-center text-xl hover-lift hover:border-primary/50 transition-all duration-300">
+                    <i class="fas fa-smile"></i>
+                </button>
+                
+                <!-- Chat Button -->
+                <button id="chat-btn" class="w-16 h-16 rounded-full glass-effect border border-white/20 flex items-center justify-center text-xl hover-lift hover:border-primary/50 transition-all duration-300">
+                    <i class="fas fa-comment"></i>
+                </button>
+                
+                <!-- Settings Button -->
+                <button id="settings-btn" class="w-16 h-16 rounded-full glass-effect border border-white/20 flex items-center justify-center text-xl hover-lift hover:border-primary/50 transition-all duration-300">
+                    <i class="fas fa-cog"></i>
+                </button>
+                
+            </div>
         </div>
         
         <!-- Chat Panel -->
-        <div class="chat-panel" id="chat-panel">
-            <div class="chat-header">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="margin: 0; font-size: 18px; font-weight: 600; color: #1f2937;">Chat</h3>
-                    <button id="close-chat" style="background: none; border: none; color: #6b7280; cursor: pointer; padding: 4px;">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18 6-12 12"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 6 12 12"></path>
-                        </svg>
+        <div id="chat-panel" class="absolute right-0 top-0 h-full w-96 glass-effect border-l border-primary/20 transform translate-x-full transition-transform duration-500 ease-in-out">
+            
+            <!-- Chat Header -->
+            <div class="p-6 border-b border-white/10 bg-primary/10">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-comment text-primary text-xl"></i>
+                        <h3 class="text-xl font-bold">Chat</h3>
+                    </div>
+                    <button id="close-chat" class="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
             
-            <div class="chat-messages" id="chat-messages">
-                <div class="message received">
-                    Hey! Great to see you on video call! 😊
+            <!-- Chat Messages -->
+            <div id="chat-messages" class="flex-1 p-4 space-y-4 overflow-y-auto chat-scrollbar" style="height: calc(100vh - 180px);">
+                <div class="slide-in">
+                    <div class="bg-white/10 rounded-2xl rounded-bl-md p-4 max-w-xs">
+                        <p class="text-sm">Hey! Great to connect with you! 😊</p>
+                    </div>
                 </div>
-                <div class="message sent">
-                    Same here! The video quality looks amazing!
+                <div class="slide-in flex justify-end">
+                    <div class="gradient-primary rounded-2xl rounded-br-md p-4 max-w-xs">
+                        <p class="text-sm text-white">Same here! This is awesome! 🚀</p>
+                    </div>
                 </div>
-                <div class="message received">
-                    Yeah, this is so much better than just text chat! 🚀
+                <div class="slide-in">
+                    <div class="bg-white/10 rounded-2xl rounded-bl-md p-4 max-w-xs">
+                        <p class="text-sm">The video quality is really good!</p>
+                    </div>
                 </div>
             </div>
             
-            <div class="chat-input-area">
-                <input type="text" class="chat-input" id="chat-input" placeholder="Type a message...">
+            <!-- Chat Input -->
+            <div class="p-4 border-t border-white/10 bg-primary/5">
+                <div class="flex items-center space-x-3">
+                    <input 
+                        id="chat-input" 
+                        type="text" 
+                        placeholder="Type your message..." 
+                        class="flex-1 bg-white/10 border border-white/20 rounded-full px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                    >
+                    <button class="w-10 h-10 rounded-full gradient-primary flex items-center justify-center hover-lift">
+                        <i class="fas fa-paper-plane text-sm"></i>
+                    </button>
+                </div>
             </div>
         </div>
         
-        <!-- Emoji Overlay -->
-        <div class="emoji-overlay" id="emoji-overlay">
-            <div class="emoji-picker" id="emoji-picker">
-                <div class="emoji-grid">
-                    <div class="emoji-item" data-emoji="👍">👍</div>
-                    <div class="emoji-item" data-emoji="❤️">❤️</div>
-                    <div class="emoji-item" data-emoji="😂">😂</div>
-                    <div class="emoji-item" data-emoji="😮">😮</div>
-                    <div class="emoji-item" data-emoji="😢">😢</div>
-                    <div class="emoji-item" data-emoji="😡">😡</div>
-                    <div class="emoji-item" data-emoji="🎉">🎉</div>
-                    <div class="emoji-item" data-emoji="🔥">🔥</div>
-                    <div class="emoji-item" data-emoji="💯">💯</div>
-                    <div class="emoji-item" data-emoji="🚀">🚀</div>
-                    <div class="emoji-item" data-emoji="✨">✨</div>
-                    <div class="emoji-item" data-emoji="💪">💪</div>
+        <!-- Emoji Picker Overlay -->
+        <div id="emoji-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+            <div id="emoji-picker" class="glass-effect rounded-3xl p-8 border border-primary/20 glow-primary transform scale-90 transition-transform duration-300">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold mb-2">Send Reaction</h3>
+                    <p class="text-gray-400">Choose an emoji to react</p>
                 </div>
-                <div style="text-align: center;">
-                    <button id="close-emoji" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 500; cursor: pointer;">
+                
+                <div class="grid grid-cols-6 gap-4 mb-8">
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="👍">👍</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="❤️">❤️</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="😂">😂</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="😮">😮</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="😢">😢</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="😡">😡</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="🎉">🎉</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="🔥">🔥</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="💯">💯</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="🚀">🚀</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="✨">✨</button>
+                    <button class="emoji-item w-16 h-16 rounded-2xl glass-effect border border-white/10 flex items-center justify-center text-3xl hover-lift hover:border-primary/50 transition-all" data-emoji="💪">💪</button>
+                </div>
+                
+                <div class="text-center">
+                    <button id="close-emoji" class="gradient-primary px-8 py-3 rounded-full font-semibold hover-lift">
                         Close
                     </button>
                 </div>
             </div>
         </div>
+        
     </div>
 
     <script src="./../../js/video/video.js"></script>
