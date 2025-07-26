@@ -17,17 +17,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/index.html'));
 });
 
-app.get('/auth/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/html/auth/login.html'));
-});
-
-app.get('/auth/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/html/auth/signup.html'));
-});
-
-app.get('/profile', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/html/profile/profile.html'));
-});
 
 app.get('/chat', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/html/chat/chat.html'));
