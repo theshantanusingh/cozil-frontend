@@ -1,66 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>404 - Page Not Found</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Lost in the Void | Cozil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./../../output.css">
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow: hidden;
         }
-
-        .container {
-            text-align: center;
-            padding: 40px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        
+        .gradient-primary {
+            background: linear-gradient(135deg, #ff1744, #e91e63);
         }
-
-        .container h1 {
-            font-size: 96px;
-            margin: 0;
-            color: #ff4757;
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #ff1744, #e91e63);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
-        .container p {
-            font-size: 20px;
-            color: #333;
-            margin: 20px 0;
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .home-link {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 12px 24px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.3s ease;
+        
+        .glow-primary {
+            box-shadow: 0 0 40px rgba(255, 23, 68, 0.3);
         }
-
-        .home-link:hover {
-            background-color: #2980b9;
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-4px) scale(1.02);
+        }
+        
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { 
+                box-shadow: 0 0 40px rgba(255, 23, 68, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 60px rgba(255, 23, 68, 0.5);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ff1744;
+            border-radius: 50%;
+            animation: particle-float 6s infinite linear;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
+        
+        .big-404 {
+            font-size: 8rem;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: 0 0 30px rgba(255, 23, 68, 0.5);
+        }
+        
+        @media (min-width: 768px) {
+            .big-404 {
+                font-size: 12rem;
+            }
         }
     </style>
 </head>
-
-<body>
-    <div class="container">
-        <h1>404</h1>
-        <p>Oops! The page you're looking for doesn't exist.</p>
-        <a href="/" class="home-link">Go Back Home</a>
+<body class="min-h-screen flex items-center justify-center relative">
+    
+    <!-- Background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
+    
+    <!-- Floating Particles -->
+    <div class="particle" style="left: 15%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 25%; animation-delay: 1s;"></div>
+    <div class="particle" style="left: 35%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 45%; animation-delay: 3s;"></div>
+    <div class="particle" style="left: 55%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 65%; animation-delay: 5s;"></div>
+    <div class="particle" style="left: 75%; animation-delay: 6s;"></div>
+    <div class="particle" style="left: 85%; animation-delay: 7s;"></div>
+    
+    <!-- Main Container -->
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+        
+        <!-- Logo -->
+        <div class="mb-6 fade-in-up">
+            <h1 class="text-3xl font-bold gradient-text flex items-center justify-center">
+                <i class="fas fa-comments mr-10"></i><p class="ml-5`">Cozil</p>
+            </h1>
+        </div>
+        
+        <!-- 404 Number -->
+        <div class="mb-6 fade-in-up" style="animation-delay: 0.2s;">
+            <div class="big-404 gradient-text">
+                404
+            </div>
+        </div>
+        
+        <!-- Error Icon -->
+        <div class="mb-6 fade-in-up float-animation" style="animation-delay: 0.4s;">
+            <div class="w-24 h-24 mx-auto glass-effect rounded-full flex items-center justify-center glow-primary">
+                <i class="fas fa-ghost text-4xl text-white"></i>
+            </div>
+        </div>
+        
+        <!-- Error Message -->
+        <div class="mb-8 fade-in-up" style="animation-delay: 0.6s;">
+            <h2 class="text-3xl md:text-4xl font-bold mb-3 text-white">
+                Lost in the <span class="gradient-text">Void</span>
+            </h2>
+            <p class="text-lg text-white/70 mb-2">
+                Oops! This page seems to have vanished into the digital abyss.
+            </p>
+            <p class="text-sm text-white/50">
+                <i class="fas fa-terminal mr-2"></i>
+                Error: Page not found in the matrix
+            </p>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 fade-in-up" style="animation-delay: 0.8s;">
+            
+            <!-- Home Button -->
+            <a href="/" class="group px-6 py-3 gradient-primary rounded-full font-semibold text-white hover-lift glow-primary flex items-center space-x-3 w-full sm:w-auto">
+                <i class="fas fa-home"></i>
+                <span>Return Home</span>
+                <i class="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
+            </a>
+            
+            <!-- Chat Button -->
+            <a href="/chat" class="group px-6 py-3 glass-effect rounded-full font-semibold text-white hover-lift border border-white/20 hover:border-primary/50 flex items-center space-x-3 w-full sm:w-auto transition-all">
+                <i class="fas fa-comments"></i>
+                <span>Start Chatting</span>
+                <i class="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
+            </a>
+            
+        </div>
+        
+        <!-- Additional Info -->
+        <div class="fade-in-up" style="animation-delay: 1s;">
+            <div class="glass-effect rounded-xl p-4 border border-white/10 max-w-lg mx-auto">
+                <div class="flex items-center justify-center space-x-4 text-white/60 text-sm">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-shield-alt text-primary"></i>
+                        <span>Secure</span>
+                    </div>
+                    <div class="w-px h-4 bg-white/20"></div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-user-secret text-primary"></i>
+                        <span>Anonymous</span>
+                    </div>
+                    <div class="w-px h-4 bg-white/20"></div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-bolt text-primary"></i>
+                        <span>Fast</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
+    
+    <!-- Corner Decorations -->
+    <div class="absolute top-6 left-6 w-12 h-12 border-l-2 border-t-2 border-primary/30"></div>
+    <div class="absolute top-6 right-6 w-12 h-12 border-r-2 border-t-2 border-primary/30"></div>
+    <div class="absolute bottom-6 left-6 w-12 h-12 border-l-2 border-b-2 border-primary/30"></div>
+    <div class="absolute bottom-6 right-6 w-12 h-12 border-r-2 border-b-2 border-primary/30"></div>
+    
+    <script>
+        // Simple interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Trigger animations
+            const elements = document.querySelectorAll('.fade-in-up');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, index * 200);
+            });
+            
+            // Add click effects to buttons
+            document.querySelectorAll('a').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+    
 </body>
-
 </html>
