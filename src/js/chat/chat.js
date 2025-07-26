@@ -1,8 +1,7 @@
-
 // Auto-resize textarea
 function autoResize(textarea) {
     textarea.style.height = 'auto';
-    textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+    textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
 }
 
 // Add message to chat
@@ -12,28 +11,31 @@ function addMessage(content, isSent = true) {
     const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     const messageDiv = document.createElement('div');
+    messageDiv.className = 'slide-up';
 
     if (isSent) {
-        messageDiv.className = 'flex justify-end';
         messageDiv.innerHTML = `
-                    <div class="flex flex-col items-end">
-                        <div class="message-sent px-4 py-3 shadow-lg">
-                            <p class="font-medium">${content}</p>
+                    <div class="flex justify-end">
+                        <div class="flex flex-col items-end max-w-md">
+                            <div class="message-sent px-5 py-4">
+                                <p class="text-white font-medium">${content}</p>
+                            </div>
+                            <span class="text-white/50 text-xs mt-2 mr-2">${timeString}</span>
                         </div>
-                        <span class="text-xs text-gray-500 mt-1 mr-2">${timeString}</span>
                     </div>
                 `;
     } else {
-        messageDiv.className = 'flex items-start space-x-3';
         messageDiv.innerHTML = `
-                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-white font-bold text-sm">AS</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="message-received px-4 py-3 shadow-sm">
-                            <p class="text-gray-900 font-medium">${content}</p>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-lg font-bold flex-shrink-0">
+                            AU
                         </div>
-                        <span class="text-xs text-gray-500 mt-1 ml-2">${timeString}</span>
+                        <div class="flex flex-col max-w-md">
+                            <div class="message-received px-5 py-4">
+                                <p class="text-white">${content}</p>
+                            </div>
+                            <span class="text-white/50 text-xs mt-2 ml-2">${timeString}</span>
+                        </div>
                     </div>
                 `;
     }
@@ -63,16 +65,16 @@ function addTypingIndicator() {
     const messagesList = document.getElementById('messages-list');
     const typingDiv = document.createElement('div');
     typingDiv.id = 'typing-indicator';
-    typingDiv.className = 'flex items-start space-x-3';
+    typingDiv.className = 'flex items-start space-x-4';
     typingDiv.innerHTML = `
-                <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span class="text-white font-bold text-sm">AS</span>
+                <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-lg font-bold flex-shrink-0">
+                    AU
                 </div>
-                <div class="bg-white px-4 py-3 rounded-2xl rounded-tl-md shadow-sm border border-gray-200">
+                <div class="glass-effect px-5 py-4 rounded-2xl rounded-tl-md border border-white/10">
                     <div class="flex space-x-1">
-                        <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
-                        <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
-                        <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
+                        <div class="w-2 h-2 bg-white/60 rounded-full typing-dots"></div>
+                        <div class="w-2 h-2 bg-white/60 rounded-full typing-dots"></div>
+                        <div class="w-2 h-2 bg-white/60 rounded-full typing-dots"></div>
                     </div>
                 </div>
             `;
@@ -95,11 +97,12 @@ function sendMessage() {
         // Simulate response
         setTimeout(() => {
             const responses = [
-                "That's really interesting! Tell me more about it 🤔",
-                "Awesome! I love hearing about new projects 🚀",
-                "Sounds like you're doing amazing work! 💪",
-                "That's so cool! How long have you been working on it? ⚡",
-                "I'd love to see it in action sometime! ✨"
+                "That's really interesting! Tell me more 🤔",
+                "Awesome! I love anonymous conversations 🚀",
+                "That's so cool! Privacy-first chatting is the best 💪",
+                "Nice! How are you finding this platform? ⚡",
+                "I totally agree! Anonymous chats are refreshing ✨",
+                "That's fascinating! Keep the conversation going 🔥"
             ];
             const randomResponse = responses[Math.floor(Math.random() * responses.length)];
             addMessage(randomResponse, false);
@@ -111,13 +114,14 @@ function sendMessage() {
 function showNotification(message, type = 'success') {
     const container = document.getElementById('notification-container');
     const notification = document.createElement('div');
-    notification.className = `p-4 rounded-xl shadow-lg transition-all duration-300 transform translate-x-full opacity-0 ${type === 'success' ? 'bg-green-500 text-white' :
-            type === 'info' ? 'bg-blue-500 text-white' : 'bg-red-500 text-white'
-        }`;
 
+    const bgColor = type === 'success' ? 'bg-green-600' :
+        type === 'info' ? 'bg-blue-600' : 'bg-red-600';
+
+    notification.className = `notification glass-effect ${bgColor} text-white px-6 py-4 rounded-xl border border-white/20 glow-primary`;
     notification.innerHTML = `
                 <div class="flex items-center space-x-3">
-                    <div class="w-2 h-2 bg-white/80 rounded-full"></div>
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'info' ? 'info' : 'exclamation'}-circle"></i>
                     <span class="font-medium">${message}</span>
                 </div>
             `;
@@ -125,11 +129,8 @@ function showNotification(message, type = 'success') {
     container.appendChild(notification);
 
     setTimeout(() => {
-        notification.classList.remove('translate-x-full', 'opacity-0');
-    }, 100);
-
-    setTimeout(() => {
-        notification.classList.add('translate-x-full', 'opacity-0');
+        notification.style.transform = 'translateX(100%)';
+        notification.style.opacity = '0';
         setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
@@ -145,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const newUserBtn = document.getElementById('new-user-btn');
     const disconnectBtn = document.getElementById('disconnect-btn');
 
+    // Message input events
     messageInput.addEventListener('input', function () {
         autoResize(this);
     });
@@ -158,6 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     sendBtn.addEventListener('click', sendMessage);
 
+    // Emoji picker
     emojiBtn.addEventListener('click', function () {
         emojiPicker.classList.toggle('hidden');
     });
@@ -177,6 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Action buttons
     attachmentBtn.addEventListener('click', function () {
         const input = document.createElement('input');
         input.type = 'file';
@@ -191,23 +195,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     videoCallBtn.addEventListener('click', function () {
-        showNotification('Starting video call with Alex...', 'info');
+        showNotification('Starting anonymous video call...', 'info');
+        setTimeout(() => {
+            window.location.href = 'video-call.html';
+        }, 1500);
     });
 
     newUserBtn.addEventListener('click', function () {
-        showNotification('Finding a new user to chat with...', 'info');
-        // Simulate finding new user
+        showNotification('Finding a new anonymous user...', 'info');
         setTimeout(() => {
-            showNotification('Connected to a new user!', 'success');
-            // Here you would typically reload the chat with new user
+            showNotification('Connected to a new anonymous user!', 'success');
+            // Simulate new user connection
+            document.getElementById('messages-list').innerHTML = '';
+            addMessage('Hey! New anonymous user here! 👋', false);
         }, 2000);
     });
 
     disconnectBtn.addEventListener('click', function () {
-        showNotification('Disconnected from chat', 'error');
-        // Simulate disconnect
+        showNotification('Disconnected from anonymous chat', 'error');
         setTimeout(() => {
-            window.location.href = '/profile';
+            window.location.href = '/';
         }, 1500);
     });
 

@@ -3,352 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cozil Chat - Connect and chat with friends around the world">
-    <meta name="keywords" content="chat, messaging, social network, video chat">
-    <meta name="author" content="Cozil">
-    <title>Chat - Cozil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Anonymous Chat - Cozil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="./../../output.css">
     <style>
         body {
-            margin: 0;
-            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            color: #ffffff;
             height: 100vh;
             overflow: hidden;
         }
         
-        .chat-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 70px;
+        .gradient-primary {
+            background: linear-gradient(135deg, #ff1744, #e91e63);
         }
         
-        .chat-body {
-            height: calc(100vh - 140px);
-            background: #f8fafc;
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .chat-input-area {
-            height: 70px;
-            background: white;
-            border-top: 1px solid #e2e8f0;
+        .glow-primary {
+            box-shadow: 0 0 30px rgba(255, 23, 68, 0.2);
         }
         
-        .message-sent {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 18px 18px 4px 18px;
-            margin-left: auto;
-            max-width: 70%;
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .message-received {
-            background: white;
-            color: #1e293b;
-            border-radius: 18px 18px 18px 4px;
-            border: 1px solid #e2e8f0;
-            max-width: 70%;
+        .hover-lift:hover {
+            transform: translateY(-2px);
         }
         
-        .typing-animation {
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .typing-dots {
             animation: typing 1.4s infinite ease-in-out;
         }
         
-        .typing-animation:nth-child(1) { animation-delay: -0.32s; }
-        .typing-animation:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dots:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots:nth-child(2) { animation-delay: -0.16s; }
         
         @keyframes typing {
             0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
             40% { transform: scale(1); opacity: 1; }
         }
         
-        .online-dot {
-            background: #10b981;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        .chat-input {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 25px;
-            transition: all 0.2s ease;
-        }
-        
-        .chat-input:focus {
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .action-btn {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.2s ease;
-        }
-        
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-1px);
-        }
-        
-        .disconnect-btn {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-        
-        .disconnect-btn:hover {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-            transform: translateY(-1px);
-        }
-        
-        .new-user-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-        
-        .new-user-btn:hover {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            transform: translateY(-1px);
-        }
-        
-        .send-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: all 0.2s ease;
-        }
-        
-        .send-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-        
-        .messages-container {
-            overflow-y: auto;
-            height: 100%;
-        }
-        
-        .messages-container::-webkit-scrollbar {
+        .chat-scrollbar::-webkit-scrollbar {
             width: 6px;
         }
         
-        .messages-container::-webkit-scrollbar-track {
-            background: #f1f5f9;
+        .chat-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
         }
         
-        .messages-container::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+        .chat-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 23, 68, 0.3);
             border-radius: 3px;
         }
         
-        .messages-container::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+        .chat-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 23, 68, 0.5);
+        }
+        
+        .message-sent {
+            background: linear-gradient(135deg, #ff1744, #e91e63);
+            border-radius: 20px 20px 6px 20px;
+            box-shadow: 0 4px 15px rgba(255, 23, 68, 0.3);
+        }
+        
+        .message-received {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px 20px 20px 6px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .chat-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input:focus {
+            border-color: #ff1744;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 23, 68, 0.2);
+        }
+        
+        .notification {
+            animation: slideInRight 0.3s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
     </style>
 </head>
-<body class="font-sans">
-    
+<body>
     <!-- Chat Header -->
-    <header class="chat-header flex items-center justify-between px-6">
-        <div class="flex items-center space-x-4">
-            <h1 class="text-2xl font-bold text-white">Cozil</h1>
-            <div class="h-6 w-px bg-white/30"></div>
-            <span class="text-white/80 font-medium">Random Chat</span>
+    <header class="h-20 glass-effect border-b border-white/10 flex items-center justify-between px-8">
+        <!-- Left Section -->
+        <div class="flex items-center space-x-6">
+            
+            <div class="w-px h-8 bg-white/20"></div>
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-comments text-primary text-lg"></i>
+                <span class="text-white/80 font-medium">Anonymous Chat</span>
+            </div>
         </div>
         
-        <!-- User Info -->
+        <!-- Center - User Info -->
         <div class="flex items-center space-x-4">
-            <div class="flex items-center space-x-3">
-                <div class="relative">
-                    <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold text-lg">AS</span>
-                    </div>
-                    <div class="absolute -bottom-1 -right-1 w-4 h-4 online-dot rounded-full border-2 border-white"></div>
-                </div>
-                <div>
-                    <h3 class="font-bold text-white">Alex Smith</h3>
-                    <p class="text-sm text-white/80">Online • New York</p>
+            <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-lg font-bold relative">
+                AU
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-black pulse-dot"></div>
+            </div>
+            <div>
+                <h3 class="font-semibold text-white">Anonymous User</h3>
+                <div class="flex items-center space-x-2 text-sm text-green-400">
+                    <div class="w-2 h-2 bg-green-400 rounded-full pulse-dot"></div>
+                    <span>Connected</span>
                 </div>
             </div>
         </div>
         
-        <!-- Action Buttons -->
-        <div class="flex items-center space-x-3">
-            <button id="video-call-btn" class="action-btn p-3 rounded-xl text-white">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                </svg>
+        <!-- Right Section - Actions -->
+        <div class="flex items-center space-x-4">
+            
+            
+            <button id="new-user-btn" class="px-6 py-3 bg-green-600 hover:bg-green-700 rounded-full font-semibold hover-lift transition-all flex items-center space-x-2">
+                <i class="fas fa-user-plus"></i>
+                <span>New User</span>
             </button>
             
-            <button id="new-user-btn" class="new-user-btn px-4 py-2 rounded-xl text-white font-medium shadow-lg">
-                <div class="flex items-center space-x-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-                    </svg>
-                    <span>New User</span>
-                </div>
-            </button>
-            
-            <button id="disconnect-btn" class="disconnect-btn px-4 py-2 rounded-xl text-white font-medium shadow-lg">
-                <div class="flex items-center space-x-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                    <span>Disconnect</span>
-                </div>
+            <button id="disconnect-btn" class="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-full font-semibold hover-lift transition-all flex items-center space-x-2">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Disconnect</span>
             </button>
         </div>
     </header>
-
+    
     <!-- Chat Body -->
-    <main class="chat-body">
-        <div class="messages-container px-6 py-6" id="messages-container">
+    <main class="flex-1 overflow-hidden" style="height: calc(100vh - 160px);">
+        <div id="messages-container" class="h-full overflow-y-auto chat-scrollbar px-8 py-6">
+            
             <!-- Connection Status -->
             <div class="text-center mb-8">
-                <div class="inline-flex items-center space-x-2 bg-green-100 text-green-800 px-4 py-2 rounded-full">
-                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span class="font-medium">Connected to Alex Smith</span>
+                <div class="inline-flex items-center space-x-3 glass-effect px-6 py-3 rounded-full border border-green-500/30">
+                    <div class="w-3 h-3 bg-green-400 rounded-full pulse-dot"></div>
+                    <span class="font-semibold text-green-400">Connected to Anonymous User</span>
                 </div>
-                <p class="text-sm text-gray-500 mt-2">Chat started • Today 2:30 PM</p>
+                <p class="text-white/60 text-sm mt-3">Chat started • No personal info shared</p>
             </div>
             
             <!-- Messages -->
-            <div class="space-y-4" id="messages-list">
+            <div id="messages-list" class="space-y-6">
+                
                 <!-- Received Message -->
-                <div class="flex items-start space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-white font-bold text-sm">AS</span>
+                <div class="flex items-start space-x-4 slide-up">
+                    <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-lg font-bold flex-shrink-0">
+                        AU
                     </div>
-                    <div class="flex flex-col">
-                        <div class="message-received px-4 py-3 shadow-sm">
-                            <p class="text-gray-900 font-medium">Hey there! Nice to meet you! 😊 How's your day going?</p>
+                    <div class="flex flex-col max-w-md">
+                        <div class="message-received px-5 py-3">
+                            <p class="text-white">Hey there! Nice to meet you anonymously! 😊 How's your day going?</p>
                         </div>
-                        <span class="text-xs text-gray-500 mt-1 ml-2">2:31 PM</span>
+                        <span class="text-white/50 text-xs mt-2 ml-2">2:31 PM</span>
                     </div>
                 </div>
                 
                 <!-- Sent Message -->
-                <div class="flex justify-end">
-                    <div class="flex flex-col items-end">
-                        <div class="message-sent px-4 py-3 shadow-lg">
-                            <p class="font-medium">Hi Alex! Great to meet you too! My day's been pretty good, just working on some projects. What about you?</p>
+                <div class="flex justify-end slide-up">
+                    <div class="flex flex-col items-end max-w-md">
+                        <div class="message-sent px-5 py-4">
+                            <p class="text-white font-medium">Hi! Great to connect! My day's been pretty good, just exploring this cool anonymous chat. What about you?</p>
                         </div>
-                        <span class="text-xs text-gray-500 mt-1 mr-2">2:32 PM</span>
+                        <span class="text-white/50 text-xs mt-2 mr-2">2:32 PM</span>
                     </div>
                 </div>
                 
                 <!-- Received Message -->
-                <div class="flex items-start space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-white font-bold text-sm">AS</span>
+                <div class="flex items-start space-x-4 slide-up">
+                    <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-lg font-bold flex-shrink-0">
+                        AU
                     </div>
-                    <div class="flex flex-col">
-                        <div class="message-received px-4 py-3 shadow-sm">
-                            <p class="text-gray-900 font-medium">That's awesome! I love meeting people who are working on cool stuff. What kind of projects are you into? 🚀</p>
+                    <div class="flex flex-col max-w-md">
+                        <div class="message-received px-5 py-4">
+                            <p class="text-white">That's awesome! I love the privacy aspect of this platform. No personal info needed, just pure conversation! 🚀</p>
                         </div>
-                        <span class="text-xs text-gray-500 mt-1 ml-2">2:33 PM</span>
+                        <span class="text-white/50 text-xs mt-2 ml-2">2:33 PM</span>
                     </div>
                 </div>
                 
                 <!-- Sent Message -->
-                <div class="flex justify-end">
-                    <div class="flex flex-col items-end">
-                        <div class="message-sent px-4 py-3 shadow-lg">
-                            <p class="font-medium">I'm actually working on a chat application! Pretty meta that we're chatting about it right now 😄</p>
+                <div class="flex justify-end slide-up">
+                    <div class="flex flex-col items-end max-w-md">
+                        <div class="message-sent px-5 py-4">
+                            <p class="text-white font-medium">Exactly! It's refreshing to just chat without all the profile stuff. Just real conversations! 💬</p>
                         </div>
-                        <span class="text-xs text-gray-500 mt-1 mr-2">2:34 PM</span>
+                        <span class="text-white/50 text-xs mt-2 mr-2">2:34 PM</span>
                     </div>
                 </div>
                 
                 <!-- Received Message -->
-                <div class="flex items-start space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-white font-bold text-sm">AS</span>
+                <div class="flex items-start space-x-4 slide-up">
+                    <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-lg font-bold flex-shrink-0">
+                        AU
                     </div>
-                    <div class="flex flex-col">
-                        <div class="message-received px-4 py-3 shadow-sm">
-                            <p class="text-gray-900 font-medium">Haha that's so cool! 😂 I'd love to hear more about it. Are you building it from scratch?</p>
+                    <div class="flex flex-col max-w-md">
+                        <div class="message-received px-5 py-4">
+                            <p class="text-white">Totally agree! So what brings you to anonymous chatting today? 🤔</p>
                         </div>
-                        <span class="text-xs text-gray-500 mt-1 ml-2">2:35 PM</span>
+                        <span class="text-white/50 text-xs mt-2 ml-2">2:35 PM</span>
                     </div>
                 </div>
                 
                 <!-- Typing Indicator -->
-                <div class="flex items-start space-x-3" id="typing-indicator">
-                    <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-white font-bold text-sm">AS</span>
+                <div id="typing-indicator" class="flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-lg font-bold flex-shrink-0">
+                        AU
                     </div>
-                    <div class="bg-white px-4 py-3 rounded-2xl rounded-tl-md shadow-sm border border-gray-200">
+                    <div class="glass-effect px-5 py-4 rounded-2xl rounded-tl-md border border-white/10">
                         <div class="flex space-x-1">
-                            <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
-                            <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
-                            <div class="w-2 h-2 bg-gray-400 rounded-full typing-animation"></div>
+                            <div class="w-2 h-2 bg-white/60 rounded-full typing-dots"></div>
+                            <div class="w-2 h-2 bg-white/60 rounded-full typing-dots"></div>
+                            <div class="w-2 h-2 bg-white/60 rounded-full typing-dots"></div>
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
     </main>
-
+    
     <!-- Chat Input Area -->
-    <footer class="chat-input-area flex items-center px-6 space-x-4">
+    <footer class="h-20 glass-effect border-t border-white/10 flex items-center px-8 space-x-4">
+        
         <!-- Attachment Button -->
-        <button id="attachment-btn" class="p-3 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
-            </svg>
+        <button id="attachment-btn" class="w-12 h-12 glass-effect rounded-full flex items-center justify-center hover-lift hover:border-primary/50 border border-white/20 transition-all">
+            <i class="fas fa-paperclip text-lg"></i>
         </button>
         
         <!-- Message Input -->
         <div class="flex-1 relative">
             <textarea 
-                id="message-input" 
-                placeholder="Type your message..." 
+                id="message-input"
+                placeholder="Type your anonymous message..."
                 rows="1"
-                class="w-full px-6 py-3 chat-input focus:outline-none resize-none font-medium text-gray-900 placeholder-gray-500"
+                class="w-full px-6 py-4 chat-input rounded-full resize-none text-white placeholder-white/50 focus:outline-none"
             ></textarea>
             
             <!-- Emoji Button -->
-            <button id="emoji-btn" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-indigo-600 transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
+            <button id="emoji-btn" class="absolute right-4 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center hover:text-primary transition-colors">
+                <i class="fas fa-smile text-lg"></i>
             </button>
         </div>
         
         <!-- Send Button -->
-        <button id="send-btn" class="send-btn p-3 text-white rounded-full shadow-lg">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-            </svg>
+        <button id="send-btn" class="w-12 h-12 gradient-primary rounded-full flex items-center justify-center hover-lift glow-primary transition-all">
+            <i class="fas fa-paper-plane text-lg"></i>
         </button>
+        
     </footer>
-
+    
     <!-- Emoji Picker -->
-    <div id="emoji-picker" class="fixed bottom-20 right-6 bg-white rounded-2xl shadow-xl border border-gray-200 p-4 hidden z-50">
-        <div class="grid grid-cols-8 gap-2">
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">😊</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">😂</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">❤️</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">👍</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🎉</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🚀</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">💯</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🔥</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">😍</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🤔</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">😎</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🙌</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">✨</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">💪</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">🎯</button>
-            <button class="emoji-btn p-2 hover:bg-gray-100 rounded-lg transition-colors text-lg">⚡</button>
+    <div id="emoji-picker" class="fixed bottom-24 right-8 glass-effect rounded-2xl p-6 border border-white/20 hidden z-50 glow-primary">
+        <div class="grid grid-cols-8 gap-3">
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">😊</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">😂</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">❤️</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">👍</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">🎉</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">🚀</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">💯</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">🔥</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">😍</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">🤔</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">😎</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">🙌</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">✨</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">💪</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">🎯</button>
+            <button class="emoji-btn w-10 h-10 flex items-center justify-center text-2xl hover:bg-white/10 rounded-lg transition-colors">⚡</button>
         </div>
     </div>
-
+    
     <!-- Notification Container -->
-    <div id="notification-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+    <div id="notification-container" class="fixed top-6 right-6 z-50 space-y-3"></div>
 
     <script src="./../../js/chat/chat.js"></script>
 </body>
